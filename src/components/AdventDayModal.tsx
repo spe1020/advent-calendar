@@ -5,549 +5,263 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Textarea } from '@/components/ui/textarea';
-import { ExternalLink, Copy, Check, User, Send } from 'lucide-react';
-import { useAuthor } from '@/hooks/useAuthor';
-import { useAuthorNotes } from '@/hooks/useAuthorNotes';
-import { useAppMetadata } from '@/hooks/useAppMetadata';
+import { Globe, Sparkles, Flame, Film } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { DailyQuiz } from './DailyQuiz';
+import { useCompletedDays } from '@/hooks/useCompletedDays';
+import { useBadges } from '@/hooks/useBadges';
+import { useStreak } from '@/hooks/useStreak';
+import { useAvatar } from '@/hooks/useAvatar';
 import { useToast } from '@/hooks/useToast';
-import { useCurrentUser } from '@/hooks/useCurrentUser';
-import { useNostrPublish } from '@/hooks/useNostrPublish';
-import { useState, useMemo, useEffect } from 'react';
-import { nip19 } from 'nostr-tools';
-import { FeedNote } from '@/components/FeedNote';
 
-export interface AppOfTheDay {
-  url: string;
-  // Optional fallback values if metadata fetch fails
-  name?: string;
-  summary?: string;
+export interface CultureHighlight {
+  country: string;
+  tradition: string;
+  description: string;
 }
 
-export interface PersonToFollow {
-  pubkey: string;
+export interface MovieOfTheDay {
+  title: string;
+  year?: number;
+  description: string;
 }
 
 export interface DayContent {
   day: number;
   unlockDate: string;
   title: string;
-  // Learn section - short micro-teaching (40-60 words)
+  // Learn section - kid-friendly Christmas history (40-60 words)
   learn: string;
-  // Explore section - App of the Day
-  app?: AppOfTheDay;
-  // Connect section - Person to Follow
-  person?: PersonToFollow;
+  // Culture section - How different cultures celebrate
+  culture?: CultureHighlight;
+  // Fun fact for kids
+  funFact?: string;
+  // Family-friendly Christmas movie recommendation
+  movie?: MovieOfTheDay;
 }
 
 interface AdventDayModalProps {
   isOpen: boolean;
   onClose: () => void;
   dayContent: DayContent | null;
-  onZap?: () => void;
+  onDayCompleted?: () => void;
 }
 
-export function AdventDayModal({ isOpen, onClose, dayContent }: AdventDayModalProps) {
+export function AdventDayModal({ isOpen, onClose, dayContent, onDayCompleted }: AdventDayModalProps) {
+  const { isDayCompleted, markDayAsCompleted } = useCompletedDays();
+  const { hasBadge, earnBadge } = useBadges();
+  const { currentStreak, updateStreak } = useStreak();
+  const { avatar } = useAvatar();
   const { toast } = useToast();
-  const { user } = useCurrentUser();
-  const [copiedNpub, setCopiedNpub] = useState<string | null>(null);
-  const [showPostForm, setShowPostForm] = useState(false);
+  
+  // Local state to force immediate UI update
+  const [localCompleted, setLocalCompleted] = useState(false);
+  const [localHasBadge, setLocalHasBadge] = useState(false);
 
-  const handleCopyNpub = async (npub: string) => {
-    try {
-      await navigator.clipboard.writeText(npub);
-      setCopiedNpub(npub);
-      toast({
-        title: 'Copied!',
-        description: 'npub copied to clipboard',
-      });
-      setTimeout(() => setCopiedNpub(null), 2000);
-    } catch {
-      toast({
-        title: 'Error',
-        description: 'Failed to copy npub',
-        variant: 'destructive',
-      });
+  // Sync with hook state when modal opens or day changes
+  useEffect(() => {
+    if (dayContent) {
+      const completed = isDayCompleted(dayContent.day);
+      const hasBadgeForDay = hasBadge(dayContent.day);
+      setLocalCompleted(completed);
+      setLocalHasBadge(hasBadgeForDay);
     }
-  };
-
-  const handleFollowNostr = (npub: string) => {
-    const nostrUrl = `nostr:${npub}`;
-    window.open(nostrUrl, '_blank');
-  };
+  }, [dayContent, isDayCompleted, hasBadge, isOpen]);
 
   if (!dayContent) return null;
+
+  // Use local state for immediate UI feedback, fallback to hook state
+  const isCompleted = localCompleted || isDayCompleted(dayContent.day);
+  const hasEarnedBadge = localHasBadge || hasBadge(dayContent.day);
+
+  const handleQuizComplete = () => {
+    if (!isCompleted) {
+      // Update local state immediately for instant UI feedback
+      setLocalCompleted(true);
+      setLocalHasBadge(true);
+      
+      // Update persistent state
+      markDayAsCompleted(dayContent.day);
+      
+      // Update streak
+      const streakResult = updateStreak(dayContent.unlockDate);
+      
+      // Earn badge with emoji based on day
+      const badgeEmojis = ['🎄', '🎁', '⭐', '❄️', '🎅', '🦌', '🔔', '🕯️', '🌟', '🎀', '⛄', '🎊', '🎈', '🎪', '🎭', '🎨', '🎯', '🎲', '🎸', '🎺', '🎻', '🥁', '🎤', '🎬'];
+      const emoji = badgeEmojis[(dayContent.day - 1) % badgeEmojis.length];
+      const badgeTitle = `Day ${dayContent.day} Complete!`;
+      
+      earnBadge(dayContent.day, badgeTitle, emoji);
+      
+      // Enhanced toast with streak information
+      const streakMessage = streakResult.newStreak > 1
+        ? ` You're on a ${streakResult.newStreak}-day streak! 🔥`
+        : streakResult.newStreak === 1
+        ? ' You started a new streak! 🔥'
+        : '';
+      
+      toast({
+        title: '🎉 Congratulations!',
+        description: `You earned a badge for completing Day ${dayContent.day}!${streakMessage}`,
+      });
+      
+      // Notify parent component to refresh
+      if (onDayCompleted) {
+        // Use setTimeout to ensure state updates are flushed
+        setTimeout(() => {
+          onDayCompleted();
+        }, 0);
+      }
+    }
+  };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto overflow-x-hidden">
         <DialogHeader>
-          <DialogTitle className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+          <DialogTitle className="text-2xl font-bold bg-gradient-to-r from-red-600 to-green-600 bg-clip-text text-transparent">
             {dayContent.title}
           </DialogTitle>
-          <DialogDescription className="text-base">
-            Day {dayContent.day} • {new Date(dayContent.unlockDate).toLocaleDateString('en-US', {
-              month: 'long',
-              day: 'numeric',
-              year: 'numeric'
-            })}
+          <DialogDescription className="text-base flex items-center gap-2 flex-wrap">
+            <span>
+              Day {dayContent.day} • {new Date(dayContent.unlockDate).toLocaleDateString('en-US', {
+                month: 'long',
+                day: 'numeric',
+                year: 'numeric'
+              })}
+            </span>
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="text-2xl">{avatar}</span>
+              {currentStreak > 0 && (
+                <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-semibold bg-gradient-to-r from-orange-500 to-red-500 text-white shadow-sm">
+                  <Flame className="w-3 h-3" />
+                  Streak: {currentStreak} {currentStreak === 1 ? 'day' : 'days'}
+                </span>
+              )}
+            </div>
           </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4 w-full min-w-0">
-          {/* Combined Learn + App Card */}
-          <Card className="overflow-hidden w-full">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-base">1️⃣ Learn</CardTitle>
+          {/* Learn Section */}
+          <Card className="overflow-hidden w-full border-2 border-red-200 dark:border-red-800">
+            <CardHeader className="pb-3 bg-gradient-to-r from-red-50 to-green-50 dark:from-red-950/20 dark:to-green-950/20">
+              <CardTitle className="text-lg flex items-center gap-2">
+                <span className="text-2xl">📚</span>
+                Learn About Christmas
+              </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-3">
-              <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed break-words min-w-0" style={{ wordBreak: 'break-word', overflowWrap: 'anywhere' }}>
+            <CardContent className="space-y-3 pt-4">
+              <p className="text-base text-gray-700 dark:text-gray-300 leading-relaxed break-words min-w-0" style={{ wordBreak: 'break-word', overflowWrap: 'anywhere' }}>
                 {dayContent.learn}
               </p>
-              
-              {/* App of the Day - inline in same card */}
-              {dayContent.app && (
-                <AppInline app={dayContent.app} />
-              )}
             </CardContent>
           </Card>
 
-          {/* Person to Follow - Condensed Card */}
-          {dayContent.person && (
-            <PersonCard
-              person={dayContent.person}
-              copiedNpub={copiedNpub}
-              onCopyNpub={handleCopyNpub}
-              onFollow={handleFollowNostr}
-            />
+          {/* Culture Section */}
+          {dayContent.culture && (
+            <Card className="overflow-hidden w-full border-2 border-blue-200 dark:border-blue-800">
+              <CardHeader className="pb-3 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-950/20 dark:to-purple-950/20">
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <Globe className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                  <span>Christmas Around the World</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3 pt-4">
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xl">🌍</span>
+                    <h3 className="font-semibold text-lg text-gray-900 dark:text-white">
+                      {dayContent.culture.country}
+                    </h3>
+                  </div>
+                  <div className="pl-7 space-y-2">
+                    <p className="font-medium text-gray-800 dark:text-gray-200">
+                      {dayContent.culture.tradition}
+                    </p>
+                    <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
+                      {dayContent.culture.description}
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
           )}
 
-          {/* Post Note Form */}
-          {user && (
-            <PostDayNoteForm
-              dayContent={dayContent}
-              showForm={showPostForm}
-              onToggleForm={() => setShowPostForm(!showPostForm)}
-            />
+          {/* Fun Fact Section */}
+          {dayContent.funFact && (
+            <Card className="overflow-hidden w-full border-2 border-yellow-200 dark:border-yellow-800">
+              <CardHeader className="pb-3 bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-950/20 dark:to-orange-950/20">
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <Sparkles className="w-5 h-5 text-yellow-600 dark:text-yellow-400" />
+                  <span>Fun Fact!</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="pt-4">
+                <p className="text-base text-gray-700 dark:text-gray-300 leading-relaxed">
+                  {dayContent.funFact}
+                </p>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Movie of the Day Section */}
+          {dayContent.movie && (
+            <Card className="overflow-hidden w-full border-2 border-purple-200 dark:border-purple-800">
+              <CardHeader className="pb-3 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-950/20 dark:to-pink-950/20">
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <Film className="w-5 h-5 text-purple-600 dark:text-purple-400" />
+                  <span>🎬 Movie of the Day</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3 pt-4">
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xl">🎥</span>
+                    <h3 className="font-semibold text-lg text-gray-900 dark:text-white">
+                      {dayContent.movie.title}
+                      {dayContent.movie.year && (
+                        <span className="text-sm font-normal text-gray-600 dark:text-gray-400 ml-2">
+                          ({dayContent.movie.year})
+                        </span>
+                      )}
+                    </h3>
+                  </div>
+                  <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed pl-7">
+                    {dayContent.movie.description}
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Daily Quiz/Interaction - Only show if not completed */}
+          {!isCompleted && (
+            <DailyQuiz dayContent={dayContent} onComplete={handleQuizComplete} />
+          )}
+
+          {/* Completion Badge Display */}
+          {isCompleted && (
+            <Card className="overflow-hidden w-full border-2 border-green-300 dark:border-green-700 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950/30 dark:to-emerald-950/30">
+              <CardContent className="pt-6 pb-6 text-center">
+                <div className="flex items-center justify-center gap-3 mb-3">
+                  <span className="text-6xl">{avatar}</span>
+                  <div className="text-6xl animate-bounce">
+                    {hasEarnedBadge ? '🏆' : '✅'}
+                  </div>
+                </div>
+                <p className="text-lg font-semibold text-green-800 dark:text-green-200">
+                  Day {dayContent.day} Completed!
+                </p>
+                <p className="text-sm text-green-600 dark:text-green-400 mt-1">
+                  Great job learning about Christmas, {avatar}! 🎉
+                </p>
+              </CardContent>
+            </Card>
           )}
         </div>
       </DialogContent>
     </Dialog>
-  );
-}
-
-
-function AppInline({ app }: { app: AppOfTheDay }) {
-  const metadata = useAppMetadata(app.url);
-  const appName = metadata.data?.title || app.name || new URL(app.url).hostname;
-  const appDescription = metadata.data?.description || app.summary || '';
-  const appImage = metadata.data?.image || metadata.data?.favicon;
-
-  return (
-    <div className="pt-3 border-t border-gray-200 dark:border-gray-700">
-      <div className="flex items-start gap-3">
-        {appImage && !metadata.isLoading && (
-          <img
-            src={appImage}
-            alt={appName}
-            className="w-12 h-12 rounded object-cover flex-shrink-0 bg-gray-100 dark:bg-gray-800"
-            onError={(e) => {
-              e.currentTarget.style.display = 'none';
-            }}
-          />
-        )}
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 mb-1 flex-wrap">
-            <span className="text-xs font-semibold text-gray-600 dark:text-gray-400">🟣 App of the Day:</span>
-            <span className="text-sm font-medium text-gray-900 dark:text-white break-words">{appName}</span>
-          </div>
-          {appDescription && (
-            <p className="text-xs text-gray-600 dark:text-gray-400 mb-2 break-words" style={{ wordBreak: 'break-word', overflowWrap: 'anywhere' }}>
-              {appDescription}
-            </p>
-          )}
-          <Button
-            variant="default"
-            size="sm"
-            asChild
-            className="h-7 text-xs"
-          >
-            <a
-              href={app.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center gap-1"
-            >
-              Try It
-              <ExternalLink className="w-3 h-3" />
-            </a>
-          </Button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function PersonCard({
-  person,
-  copiedNpub,
-  onCopyNpub,
-  onFollow,
-}: {
-  person: PersonToFollow;
-  copiedNpub: string | null;
-  onCopyNpub: (npub: string) => void;
-  onFollow: (npub: string) => void;
-}) {
-  // Handle npub encoding - pubkey can be hex or npub
-  const npubToShow = useMemo(() => {
-    if (person.pubkey.startsWith('npub')) {
-      return person.pubkey;
-    }
-    // Assume it's hex and encode it
-    try {
-      return nip19.npubEncode(person.pubkey);
-    } catch {
-      // If encoding fails, return as-is (might already be npub without prefix)
-      return person.pubkey;
-    }
-  }, [person.pubkey]);
-
-  // Get pubkey for useAuthor (needs hex)
-  const pubkeyHex = useMemo(() => {
-    if (person.pubkey.startsWith('npub')) {
-      try {
-        const decoded = nip19.decode(person.pubkey);
-        if (decoded.type === 'npub') {
-          return decoded.data as string;
-        }
-        if (decoded.type === 'nprofile') {
-          const data = decoded.data;
-          return typeof data === 'string' ? data : data.pubkey;
-        }
-      } catch {
-        return person.pubkey;
-      }
-    }
-    return person.pubkey;
-  }, [person.pubkey]);
-
-  const author = useAuthor(pubkeyHex);
-  const notes = useAuthorNotes(pubkeyHex, 3); // Fetch last 3 notes
-  const isLoading = author.isLoading;
-  const isLoadingNotes = notes.isLoading;
-  const metadata = author.data?.metadata;
-  // Use real profile data from Nostr
-  const displayName = metadata?.name || metadata?.display_name || 'Nostr User';
-  const picture = metadata?.picture;
-
-  return (
-    <Card>
-      <CardHeader className="pb-3">
-        <CardTitle className="text-base">👤 Person to Follow</CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-3">
-        {/* Profile Header - Condensed */}
-        <div className="flex items-center gap-3">
-          {isLoading ? (
-            <div className="w-12 h-12 rounded-full bg-gray-200 dark:bg-gray-700 animate-pulse flex-shrink-0" />
-          ) : picture ? (
-            <img
-              src={picture}
-              alt={displayName}
-              className="w-12 h-12 rounded-full object-cover flex-shrink-0"
-            />
-          ) : (
-            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center flex-shrink-0">
-              <User className="w-6 h-6 text-white" />
-            </div>
-          )}
-          <div className="flex-1 min-w-0">
-            <h3 className="font-semibold text-sm text-gray-900 dark:text-white truncate">
-              {isLoading ? (
-                <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse w-24" />
-              ) : (
-                displayName
-              )}
-            </h3>
-            <div className="flex items-center gap-2 mt-1 flex-wrap">
-              <code className="text-xs bg-gray-100 dark:bg-gray-800 px-1.5 py-0.5 rounded font-mono text-gray-700 dark:text-gray-300">
-                {npubToShow.slice(0, 16)}...
-              </code>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => onCopyNpub(npubToShow)}
-                className="h-6 text-xs px-2"
-              >
-                {copiedNpub === npubToShow ? (
-                  <>
-                    <Check className="w-3 h-3 mr-1" />
-                    Copied
-                  </>
-                ) : (
-                  <>
-                    <Copy className="w-3 h-3 mr-1" />
-                    Copy
-                  </>
-                )}
-              </Button>
-              <Button
-                variant="default"
-                size="sm"
-                onClick={() => onFollow(npubToShow)}
-                className="h-6 text-xs px-2"
-              >
-                Follow
-              </Button>
-            </div>
-          </div>
-        </div>
-
-        {/* Recent Notes Feed - Horizontal Scroll */}
-        <div className="border-t pt-3">
-          <h4 className="text-xs font-semibold text-gray-700 dark:text-gray-300 mb-2">
-            Recent Notes
-          </h4>
-          {isLoadingNotes ? (
-            <div className="flex gap-2 overflow-x-auto pb-2">
-              {[1, 2, 3].map((i) => (
-                <div key={i} className="flex-shrink-0 w-64 space-y-2">
-                  <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse w-full" />
-                  <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse w-3/4" />
-                </div>
-              ))}
-            </div>
-          ) : notes.data && notes.data.length > 0 ? (
-            <div className="flex gap-2 overflow-x-auto pb-2 horizontal-scroll">
-              {notes.data.map((note) => (
-                <div
-                  key={note.id}
-                  className="flex-shrink-0 w-64 p-2 rounded-lg bg-gray-50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700"
-                >
-                  <FeedNote event={note} showNested={true} />
-                  <div className="mt-1.5 text-xs text-gray-500 dark:text-gray-400">
-                    {new Date(note.created_at * 1000).toLocaleDateString('en-US', {
-                      month: 'short',
-                      day: 'numeric',
-                      hour: 'numeric',
-                      minute: '2-digit',
-                    })}
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <p className="text-xs text-gray-500 dark:text-gray-400 italic">
-              No recent notes found
-            </p>
-          )}
-        </div>
-      </CardContent>
-    </Card>
-  );
-}
-
-function PostDayNoteForm({
-  dayContent,
-  showForm,
-  onToggleForm,
-}: {
-  dayContent: DayContent;
-  showForm: boolean;
-  onToggleForm: () => void;
-}) {
-  const { toast } = useToast();
-  const { mutate: publishNote, isPending } = useNostrPublish();
-  const appMetadata = useAppMetadata(dayContent.app?.url);
-
-  // Get npub for person to follow
-  const personNpub = useMemo(() => {
-    if (!dayContent.person) return '';
-    if (dayContent.person.pubkey.startsWith('npub')) {
-      return dayContent.person.pubkey;
-    }
-    try {
-      return nip19.npubEncode(dayContent.person.pubkey);
-    } catch {
-      return dayContent.person.pubkey;
-    }
-  }, [dayContent.person]);
-
-  // Get app name
-  const appName = dayContent.app
-    ? (appMetadata.data?.title || dayContent.app.name || new URL(dayContent.app.url).hostname)
-    : '';
-
-  // Template content - reset when dayContent changes
-  const [summary, setSummary] = useState('');
-  const [learn, setLearn] = useState(dayContent.learn);
-  const [app, setApp] = useState(dayContent.app?.url || '');
-  const [person, setPerson] = useState(personNpub);
-
-  // Reset form when day content changes
-  useEffect(() => {
-    setSummary('');
-    setLearn(dayContent.learn);
-    setApp(dayContent.app?.url || '');
-    setPerson(personNpub);
-  }, [dayContent.day, dayContent.learn, dayContent.app?.url, personNpub]);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!summary.trim()) {
-      toast({
-        title: 'Summary required',
-        description: 'Please add a brief summary for this day',
-        variant: 'destructive',
-      });
-      return;
-    }
-
-    // Build the note content with template format
-    let content = `🎄 Day ${dayContent.day}: ${dayContent.title}\n\n`;
-    content += `📝 ${summary}\n\n`;
-    content += `📚 Learn:\n${learn}\n\n`;
-
-    if (app) {
-      content += `🟣 App of the Day: ${appName}\n${app}\n\n`;
-    }
-
-    if (person) {
-      content += `👤 Person to Follow: ${person}\n`;
-    }
-
-    // Add hashtag for advent calendar
-    content += `\n#NostrAdvent2025`;
-
-    try {
-      await publishNote({
-        kind: 1,
-        content,
-        tags: [
-          ['t', 'NostrAdvent2025'],
-          ['t', `day${dayContent.day}`],
-        ],
-      });
-
-      toast({
-        title: 'Posted!',
-        description: 'Your note has been published to Nostr',
-      });
-
-      // Reset form
-      setSummary('');
-      setLearn(dayContent.learn);
-      setApp(dayContent.app?.url || '');
-      setPerson(personNpub);
-      onToggleForm();
-    } catch {
-      toast({
-        title: 'Error',
-        description: 'Failed to publish note. Please try again.',
-        variant: 'destructive',
-      });
-    }
-  };
-
-  if (!showForm) {
-    return (
-      <Card>
-        <CardContent className="pt-6">
-          <Button
-            onClick={onToggleForm}
-            variant="outline"
-            className="w-full"
-          >
-            <Send className="w-4 h-4 mr-2" />
-            Share with Nostr Community
-          </Button>
-        </CardContent>
-      </Card>
-    );
-  }
-
-  return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="text-base">📝 Post a Note</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="text-sm font-medium mb-2 block">
-              Brief Summary *
-            </label>
-            <Textarea
-              value={summary}
-              onChange={(e) => setSummary(e.target.value)}
-              placeholder="Add a brief summary of this day..."
-              className="min-h-[80px]"
-              required
-            />
-          </div>
-
-          <div>
-            <label className="text-sm font-medium mb-2 block">
-              📚 Learning
-            </label>
-            <Textarea
-              value={learn}
-              onChange={(e) => setLearn(e.target.value)}
-              className="min-h-[100px]"
-            />
-          </div>
-
-          {dayContent.app && (
-            <div>
-              <label className="text-sm font-medium mb-2 block">
-                🟣 App of the Day
-              </label>
-              <Textarea
-                value={app}
-                onChange={(e) => setApp(e.target.value)}
-                placeholder="App URL"
-                className="min-h-[60px]"
-              />
-            </div>
-          )}
-
-          {dayContent.person && (
-            <div>
-              <label className="text-sm font-medium mb-2 block">
-                👤 Person to Follow
-              </label>
-              <Textarea
-                value={person}
-                onChange={(e) => setPerson(e.target.value)}
-                placeholder="npub..."
-                className="min-h-[60px] font-mono text-sm"
-              />
-            </div>
-          )}
-
-          <div className="flex gap-2">
-            <Button
-              type="submit"
-              disabled={isPending || !summary.trim()}
-              className="flex-1"
-            >
-              {isPending ? 'Publishing...' : 'Publish Note'}
-            </Button>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={onToggleForm}
-              disabled={isPending}
-            >
-              Cancel
-            </Button>
-          </div>
-        </form>
-      </CardContent>
-    </Card>
   );
 }

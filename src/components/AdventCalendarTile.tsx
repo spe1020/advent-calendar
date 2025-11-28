@@ -1,7 +1,8 @@
 import { cn } from '@/lib/utils';
-import { Lock, Check } from 'lucide-react';
+import { Lock, Check, Star } from 'lucide-react';
 import { useState } from 'react';
 import { LockedTileParticles } from '@/components/LockedTileParticles';
+import { useCompletedDays } from '@/hooks/useCompletedDays';
 
 export type TileState = 'locked' | 'today' | 'opened';
 
@@ -14,6 +15,8 @@ interface AdventCalendarTileProps {
 export function AdventCalendarTile({ day, state, onClick }: AdventCalendarTileProps) {
   const isClickable = state !== 'locked';
   const [isHovered, setIsHovered] = useState(false);
+  const { isDayCompleted } = useCompletedDays();
+  const isCompleted = isDayCompleted(day);
 
   // Base styles for all tiles
   const base = cn(
@@ -84,7 +87,13 @@ export function AdventCalendarTile({ day, state, onClick }: AdventCalendarTilePr
         {state === 'locked' && (
           <Lock className="w-5 h-5 text-gray-600 dark:text-gray-400" />
         )}
-        {state === 'opened' && (
+        {isCompleted && (
+          <div className="relative">
+            <Check className="w-5 h-5 text-white/90 bg-green-500 rounded-full p-0.5 animate-pulse" />
+            <Star className="w-3 h-3 text-yellow-400 absolute -top-1 -right-1 animate-spin" style={{ animationDuration: '2s' }} />
+          </div>
+        )}
+        {state === 'opened' && !isCompleted && (
           <Check className="w-5 h-5 text-white/90 bg-green-500 rounded-full p-0.5" />
         )}
       </div>

@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react';
 
+// Custom event name for same-tab localStorage updates
+const STORAGE_UPDATE_EVENT = 'localStorageUpdate';
+
 /**
  * Generic hook for managing localStorage state
  */
@@ -29,14 +32,19 @@ export function useLocalStorage<T>(
       const valueToStore = value instanceof Function ? value(state) : value;
       setState(valueToStore);
       localStorage.setItem(key, serialize(valueToStore));
+      
+      // Dispatch custom event to notify other components in the same tab
+      window.dispatchEvent(new CustomEvent(STORAGE_UPDATE_EVENT, {
+        detail: { key, newValue: valueToStore }
+      }));
     } catch (error) {
       console.warn(`Failed to save ${key} to localStorage:`, error);
     }
   };
 
-  // Sync with localStorage changes from other tabs
+  // Sync with localStorage changes from other tabs AND same tab
   useEffect(() => {
-    const handleStorageChange = (e: StorageEvent) => {
+    const handleStorageEvent = (e: StorageEvent) => {
       if (e.key === key && e.newValue !== null) {
         try {
           setState(deserialize(e.newValue));
@@ -46,8 +54,26 @@ export function useLocalStorage<T>(
       }
     };
 
-    window.addEventListener('storage', handleStorageChange);
-    return () => window.removeEventListener('storage', handleStorageChange);
+    const handleCustomEvent = (e: Event) => {
+      const customEvent = e as CustomEvent<{ key: string; newValue: T }>;
+      if (customEvent.detail?.key === key) {
+        try {
+          setState(customEvent.detail.newValue);
+        } catch (error) {
+          console.warn(`Failed to sync ${key} from localStorage:`, error);
+        }
+      }
+    };
+
+    // Listen for cross-tab updates (StorageEvent)
+    window.addEventListener('storage', handleStorageEvent);
+    // Listen for same-tab updates (CustomEvent)
+    window.addEventListener(STORAGE_UPDATE_EVENT, handleCustomEvent);
+    
+    return () => {
+      window.removeEventListener('storage', handleStorageEvent);
+      window.removeEventListener(STORAGE_UPDATE_EVENT, handleCustomEvent);
+    };
   }, [key, deserialize]);
 
   return [state, setValue] as const;

@@ -1,17 +1,22 @@
 import { useSeoMeta } from '@unhead/react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { AdventCalendarTile, type TileState } from '@/components/AdventCalendarTile';
 import { AdventDayModal, DayContent } from '@/components/AdventDayModal';
-import { LoginArea } from '@/components/auth/LoginArea';
-import { useCurrentUser } from '@/hooks/useCurrentUser';
+import { BadgesView } from '@/components/BadgesView';
 import { useToast } from '@/hooks/useToast';
 import { useOpenedDays } from '@/hooks/useOpenedDays';
-import { Calendar } from 'lucide-react';
+import { useCompletedDays } from '@/hooks/useCompletedDays';
+import { useBadges } from '@/hooks/useBadges';
+import { Calendar, Trophy, User, Award } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { Snowfall } from '@/components/Snowfall';
 import { ChristmasLights } from '@/components/ChristmasLights';
 import { WinterNightBackground } from '@/components/WinterNightBackground';
-import { ProgressLights } from '@/components/ProgressLights';
-import { ChristmasGiftButton } from '@/components/ChristmasGiftButton';
+import { ChristmasProgressBar } from '@/components/ChristmasProgressBar';
+import { SantaWorkshopProgress } from '@/components/SantaWorkshopProgress';
+import { AvatarSelector } from '@/components/AvatarSelector';
+import { useAvatar } from '@/hooks/useAvatar';
+import { Button } from '@/components/ui/button';
 
 interface AdventData {
   days: DayContent[];
@@ -21,13 +26,36 @@ const Index = () => {
   const [adventData, setAdventData] = useState<AdventData | null>(null);
   const [selectedDay, setSelectedDay] = useState<DayContent | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { user } = useCurrentUser();
+  const [isBadgesOpen, setIsBadgesOpen] = useState(false);
+  const [isAvatarOpen, setIsAvatarOpen] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
   const { toast } = useToast();
+  const { avatar } = useAvatar();
   const { isDayOpened, markDayAsOpened } = useOpenedDays();
+  const { isDayCompleted, completedCount } = useCompletedDays();
+  const { totalBadges } = useBadges();
+  
+  // Force re-render when a day is completed
+  const handleDayCompleted = () => {
+    setRefreshKey(prev => prev + 1);
+  };
+  
+  // Watch for changes in completed days and badges to force re-render
+  const prevCompletedCount = useRef(completedCount);
+  const prevBadgeCount = useRef(totalBadges);
+  
+  useEffect(() => {
+    // Only update if counts actually changed (avoid initial render)
+    if (prevCompletedCount.current !== completedCount || prevBadgeCount.current !== totalBadges) {
+      prevCompletedCount.current = completedCount;
+      prevBadgeCount.current = totalBadges;
+      setRefreshKey(prev => prev + 1);
+    }
+  }, [completedCount, totalBadges]);
 
   useSeoMeta({
-    title: 'Nostr Advent Calendar 2025',
-    description: 'Discover something new about Nostr every day this December! A 24-day journey through the decentralized social protocol.',
+    title: 'Christmas Advent Calendar 2025',
+    description: 'Discover the history and traditions of Christmas from around the world! A fun 24-day journey for kids leading up to Christmas.',
   });
 
   // Load advent calendar data
@@ -46,7 +74,14 @@ const Index = () => {
   }, [toast]);
 
   // Check if a day is unlocked based on current date
-  const isDayUnlocked = (unlockDate: string): boolean => {
+  // Day 1 is always unlocked (preview day), days 2-24 use normal unlock logic
+  const isDayUnlocked = (dayNumber: number, unlockDate: string): boolean => {
+    // Day 1 is always unlocked as a preview
+    if (dayNumber === 1) {
+      return true;
+    }
+    
+    // Days 2-24: check if today >= unlockDate
     const now = new Date();
     const unlock = new Date(unlockDate);
     // Reset time to compare dates only
@@ -66,17 +101,20 @@ const Index = () => {
 
   // Calculate tile state
   const getTileState = (dayContent: DayContent): TileState => {
-    if (!isDayUnlocked(dayContent.unlockDate)) {
+    if (!isDayUnlocked(dayContent.day, dayContent.unlockDate)) {
       return 'locked';
+    }
+    // If completed, show as opened
+    if (isDayCompleted(dayContent.day)) {
+      return 'opened';
     }
     if (isToday(dayContent.unlockDate) && !isDayOpened(dayContent.day)) {
       return 'today';
     }
     if (isDayOpened(dayContent.day)) {
-      return 'opened';
+      return 'today'; // Available but not completed
     }
     // Past day that hasn't been opened yet - treat as "today" for now
-    // (could be changed to a separate "available" state if needed)
     return 'today';
   };
 
@@ -87,13 +125,6 @@ const Index = () => {
     markDayAsOpened(dayContent.day);
   };
 
-  const handleZap = () => {
-    // Placeholder zap function - will be enhanced later
-    toast({
-      title: 'Zap Request',
-      description: 'Zap functionality will be implemented soon! ⚡',
-    });
-  };
 
   if (!adventData) {
     return (
@@ -107,7 +138,7 @@ const Index = () => {
   }
 
   // Check if any days are unlocked
-  const hasUnlockedDays = adventData.days.some(day => isDayUnlocked(day.unlockDate));
+  const hasUnlockedDays = adventData.days.some(day => isDayUnlocked(day.day, day.unlockDate));
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 dark:from-slate-950 dark:via-indigo-950 dark:to-slate-950 relative">
@@ -122,17 +153,41 @@ const Index = () => {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <Calendar className="w-8 h-8 text-purple-400" />
+              <Calendar className="w-8 h-8 text-red-400" />
               <div>
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent">
-                  Nostr Advent Calendar
+                <h1 className="text-2xl font-bold bg-gradient-to-r from-red-400 via-green-400 to-blue-400 bg-clip-text text-transparent">
+                  Christmas Advent Calendar
                 </h1>
                 <p className="text-sm text-gray-300 dark:text-gray-400">December 2025</p>
               </div>
             </div>
-            <div className="flex items-center gap-3">
-              <ChristmasGiftButton />
-              <LoginArea className="max-w-60" />
+            <div className="flex items-center gap-2">
+              <Button
+                onClick={() => setIsAvatarOpen(true)}
+                variant="outline"
+                className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white border-0"
+                title="Choose your avatar"
+              >
+                <span className="text-xl mr-2">{avatar}</span>
+                <User className="w-4 h-4" />
+              </Button>
+              <Button
+                onClick={() => setIsBadgesOpen(true)}
+                variant="outline"
+                className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white border-0"
+              >
+                <Trophy className="w-4 h-4 mr-2" />
+                My Badges ({totalBadges}/24)
+              </Button>
+              <Link to="/achievements">
+                <Button
+                  variant="outline"
+                  className="bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white border-0"
+                >
+                  <Award className="w-4 h-4 mr-2" />
+                  My Achievements 🏅
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
@@ -144,24 +199,25 @@ const Index = () => {
         <div className="text-center mb-12 space-y-4">
           <ChristmasLights />
           <h2 className="text-4xl md:text-5xl font-bold text-white dark:text-white">
-            Discover Nostr This December
+            Discover Christmas Around the World! 🌍
           </h2>
           <p className="text-xl text-gray-200 dark:text-gray-300 max-w-2xl mx-auto">
-            Unlock a new insight about the decentralized social protocol every day leading up to Christmas!
+            Unlock a new story about Christmas history and traditions from different cultures every day leading up to Christmas!
           </p>
-          {user && (
-            <p className="text-sm text-purple-300 dark:text-purple-400 flex items-center justify-center gap-2">
-              <span className="inline-block w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-              Logged in as Nostr user - Send zaps to support content creators!
-            </p>
-          )}
+          <p className="text-sm text-red-300 dark:text-red-400 flex items-center justify-center gap-2">
+            <span className="text-xl">🎄</span>
+            Learn, explore, and have fun!
+          </p>
         </div>
 
+        {/* Progress Indicator */}
+        <ChristmasProgressBar completed={completedCount} total={24} />
+
         {/* Calendar Grid */}
-        <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-3 md:gap-4 max-w-6xl mx-auto">
+        <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-3 md:gap-4 max-w-6xl mx-auto" key={refreshKey}>
           {adventData.days.map((day) => (
             <AdventCalendarTile
-              key={day.day}
+              key={`${day.day}-${isDayCompleted(day.day)}-${refreshKey}`}
               day={day.day}
               state={getTileState(day)}
               onClick={() => handleTileClick(day)}
@@ -169,27 +225,66 @@ const Index = () => {
           ))}
         </div>
 
+        {/* Santa's Workshop Progress */}
+        <div className="mt-12">
+          <SantaWorkshopProgress completedDays={completedCount} />
+        </div>
+
         {/* Footer Info */}
-        <div className="mt-16 text-center space-y-4">
-          <p className="text-gray-300 dark:text-gray-400">
-            {adventData.days.filter(d => isDayUnlocked(d.unlockDate)).length} of 24 days unlocked
-          </p>
-          <ProgressLights 
-            unlockedCount={adventData.days.filter(d => isDayUnlocked(d.unlockDate)).length}
-            totalDays={24}
-          />
-          <p className="text-sm text-gray-400 dark:text-gray-500">
-            Built with ❤️ on Nostr
-          </p>
+        <div className="mt-16 text-center space-y-3">
+          <div>
+            <p className="text-lg md:text-xl font-bold text-white dark:text-white mb-3">
+              Merry Christmas Around the World! 🌍
+            </p>
+            <div className="flex flex-wrap items-center justify-center gap-3 md:gap-4 text-sm md:text-base text-gray-300 dark:text-gray-400">
+              <span>🇺🇸 Merry Christmas</span>
+              <span>🇪🇸 Feliz Navidad</span>
+              <span>🇫🇷 Joyeux Noël</span>
+              <span>🇩🇪 Frohe Weihnachten</span>
+              <span>🇮🇹 Buon Natale</span>
+              <span>🇵🇹 Feliz Natal</span>
+              <span>🇳🇱 Vrolijk Kerstfeest</span>
+              <span>🇷🇺 С Рождеством</span>
+              <span>🇯🇵 メリークリスマス</span>
+              <span>🇨🇳 圣诞快乐</span>
+              <span>🇰🇷 메리 크리스마스</span>
+              <span>🇸🇪 God Jul</span>
+              <span>🇳🇴 God Jul</span>
+              <span>🇩🇰 Glædelig Jul</span>
+              <span>🇫🇮 Hyvää Joulua</span>
+              <span>🇵🇱 Wesołych Świąt</span>
+              <span>🇨🇿 Veselé Vánoce</span>
+              <span>🇬🇷 Καλά Χριστούγεννα</span>
+              <span>🇹🇷 Mutlu Noeller</span>
+              <span>🇮🇸 Gleðileg Jól</span>
+              <span>🇭🇺 Boldog Karácsonyt</span>
+              <span>🇷🇴 Crăciun Fericit</span>
+              <span>🇧🇬 Весела Коледа</span>
+            </div>
+          </div>
         </div>
       </main>
 
-      {/* Day Content Modal */}
+      {/* Day Content Modal - key forces re-render when completion state changes */}
       <AdventDayModal
+        key={`${selectedDay?.day}-${selectedDay ? isDayCompleted(selectedDay.day) : ''}-${refreshKey}`}
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         dayContent={selectedDay}
-        onZap={handleZap}
+        onDayCompleted={handleDayCompleted}
+      />
+
+      {/* Badges View Modal - key forces re-render when badge count changes */}
+      <BadgesView
+        key={totalBadges}
+        isOpen={isBadgesOpen}
+        onClose={() => setIsBadgesOpen(false)}
+      />
+
+      {/* Avatar Selector Modal */}
+      <AvatarSelector
+        isOpen={isAvatarOpen}
+        onClose={() => setIsAvatarOpen(false)}
       />
     </div>
   );

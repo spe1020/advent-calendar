@@ -5,7 +5,7 @@ import { useLocalStorage } from './useLocalStorage';
  */
 export function useOpenedDays() {
   const [openedDays, setOpenedDays] = useLocalStorage<number[]>(
-    'nostr:advent:opened-days',
+    'christmas:advent:opened-days',
     []
   );
 

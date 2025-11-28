@@ -1,7 +1,7 @@
 {
-  "name": "Nostr Advent Calendar 2025",
-  "short_name": "Nostr Advent",
-  "description": "Discover something new about Nostr every day this December! A 24-day journey through the decentralized social protocol.",
+  "name": "Christmas Advent Calendar 2025",
+  "short_name": "Christmas Advent",
+  "description": "Discover the history and traditions of Christmas from around the world! A fun 24-day journey for kids leading up to Christmas.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",

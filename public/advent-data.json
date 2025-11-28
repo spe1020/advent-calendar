@@ -3,289 +3,409 @@
     {
       "day": 1,
       "unlockDate": "2025-12-01",
-      "title": "Day 1: What Is Nostr?",
-      "learn": "Nostr stands for 'Notes and Other Stuff Transmitted by Relays.' It's a simple, open protocol that enables global, decentralized, and censorship-resistant social networking. Unlike traditional platforms, you own your identity and data. Your account is a cryptographic keypair that works across any Nostr client or app.",
-      "app": {
-        "url": "https://jumble.social"
+      "title": "Day 1: The Story of Christmas",
+      "learn": "Christmas is a special holiday that celebrates the birth of Jesus Christ over 2,000 years ago in Bethlehem. The word 'Christmas' comes from 'Christ's Mass' - a special church service. Today, people all around the world celebrate Christmas with family, gifts, and joy!",
+      "culture": {
+        "country": "United States",
+        "tradition": "Santa Claus and Stockings",
+        "description": "In America, children hang stockings by the fireplace on Christmas Eve. They believe Santa Claus comes down the chimney to fill them with treats and small gifts while they sleep!"
       },
-      "person": {
-        "pubkey": "npub18ams6ewn5aj2n3wt2qawzglx9mr4nzksxhvrdc4gzrecw7n5tvjqctp424"
+      "funFact": "Did you know? The first Christmas card was sent in 1843 in England!",
+      "movie": {
+        "title": "The Polar Express",
+        "year": 2004,
+        "description": "A magical train takes a young boy on an amazing journey to the North Pole to meet Santa Claus. This beautiful animated movie teaches us about believing in the magic of Christmas!"
       }
     },
     {
       "day": 2,
       "unlockDate": "2025-12-02",
-      "title": "Day 2: Public Key Cryptography",
-      "learn": "Nostr uses public key cryptography to secure your identity. Your public key (npub) is your address on the network, while your private key (nsec) signs your messages. This cryptographic foundation means no central authority can ban or control your account. Your keys are your identity, and they work across every Nostr client.",
-      "app": {
-        "url": "https://damus.io"
+      "title": "Day 2: The Christmas Tree",
+      "learn": "The tradition of decorating Christmas trees started in Germany over 500 years ago! People brought evergreen trees inside their homes and decorated them with candles, fruits, and nuts. Today we use colorful lights, ornaments, and a star or angel on top!",
+      "culture": {
+        "country": "Germany",
+        "tradition": "The First Christmas Trees",
+        "description": "Germany is where the Christmas tree tradition began! Families decorate their trees on Christmas Eve, and children aren't allowed to see it until it's finished. Then the whole family sings carols together."
       },
-      "person": {
-        "pubkey": "npub1aeh2zw4elewy5682lxc6xnlqzjnxksq303gwu2npfaxd49vmde6qcq4nwx"
+      "funFact": "Did you know? The tallest Christmas tree ever was 221 feet tall - that's as tall as a 20-story building!",
+      "movie": {
+        "title": "How the Grinch Stole Christmas",
+        "year": 2000,
+        "description": "The Grinch tries to steal Christmas from the cheerful Whos, but learns that Christmas is about more than just presents. A heartwarming story about the true meaning of the holiday!"
       }
     },
     {
       "day": 3,
       "unlockDate": "2025-12-03",
-      "title": "Day 3: Relays Explained",
-      "learn": "Relays are lightweight servers that store and forward Nostr events. They don't own your data or control your account. You can use multiple relays for redundancy, and switch between them freely. Unlike traditional platforms, relays are interchangeable infrastructure, not gatekeepers. Your data remains yours regardless of which relay you use.",
-      "app": {
-        "url": "https://nostr.watch"
+      "title": "Day 3: Christmas Lights",
+      "learn": "Before electric lights, people used real candles on their Christmas trees! This was very dangerous. In 1882, Edward Johnson created the first electric Christmas lights. Now we can safely enjoy beautiful, colorful lights everywhere during the holidays!",
+      "culture": {
+        "country": "Philippines",
+        "tradition": "The Longest Christmas Season",
+        "description": "In the Philippines, Christmas celebrations start in September! People decorate their homes with colorful star-shaped lanterns called 'parols' and celebrate for months with music, food, and family gatherings."
       },
-      "person": {
-        "pubkey": "npub1ymt2j3n8tesrlr0yhaheem6yyqmmwrr7actslurw6annls6vnrcslapxnz"
+      "funFact": "Did you know? Some cities use so many Christmas lights that you can see them from space!",
+      "movie": {
+        "title": "Elf",
+        "year": 2003,
+        "description": "Buddy the Elf was raised at the North Pole but discovers he's actually human! He travels to New York City to find his family and spread Christmas cheer everywhere he goes."
       }
     },
     {
       "day": 4,
       "unlockDate": "2025-12-04",
-      "title": "Day 4: NIPs - Nostr Implementation Possibilities",
-      "learn": "NIPs (Nostr Implementation Possibilities) are proposals that extend the protocol's capabilities. From basic text notes (NIP-01) to Lightning zaps (NIP-57) and encrypted messages (NIP-04), NIPs document how features work. Anyone can propose a NIP, and the community decides what gets adopted. This open process drives innovation.",
-      "app": {
-        "url": "https://yakihonne.com"
+      "title": "Day 4: Santa Claus Around the World",
+      "learn": "Santa Claus has different names in different countries! In France, he's called 'Père Noël' (Father Christmas). In Italy, children wait for 'Babbo Natale' or 'La Befana' - a kind witch who brings gifts. Each culture has its own special gift-bringer!",
+      "culture": {
+        "country": "Italy",
+        "tradition": "La Befana",
+        "description": "In Italy, children don't just wait for Santa! They also wait for La Befana, a friendly old witch who flies on a broomstick on January 6th. She brings gifts to good children and coal to naughty ones, filling stockings left by the fireplace."
       },
-      "person": {
-        "pubkey": "npub1h8nk2346qezka5cpm8jjh3yl5j88pf4ly2ptu7s6uu55wcfqy0wq36rpev"
+      "funFact": "Did you know? In some countries, Santa has helpers like elves, but in others he has different magical assistants!",
+      "movie": {
+        "title": "Home Alone",
+        "year": 1990,
+        "description": "When 8-year-old Kevin is accidentally left home alone, he must protect his house from burglars using clever traps. A fun and funny Christmas adventure!"
       }
     },
     {
       "day": 5,
       "unlockDate": "2025-12-05",
-      "title": "Day 5: Lightning Network Integration",
-      "learn": "Nostr integrates seamlessly with Bitcoin's Lightning Network for instant micropayments. Lightning addresses (like user@domain.com) enable direct payments without on-chain fees. This integration powers zaps, allowing you to send value instantly to support creators. Lightning makes Nostr a true value-for-value network where content creators can monetize directly.",
-      "app": {
-        "url": "https://getalby.com"
+      "title": "Day 5: Christmas Carols",
+      "learn": "Christmas carols are special songs people sing during the holidays! The tradition started hundreds of years ago when people went door-to-door singing. Some famous carols like 'Silent Night' and 'Jingle Bells' are loved by children and adults all over the world!",
+      "culture": {
+        "country": "England",
+        "tradition": "Caroling and Wassailing",
+        "description": "In England, groups of people called 'carolers' go from house to house singing Christmas songs. Sometimes they're given treats or hot drinks called 'wassail' as a thank you for their beautiful singing!"
       },
-      "person": {
-        "pubkey": "npub1de6l09erjl9r990q7n9ql0rwh8x8n059ht7a267n0q3qe28wua8q20q0sd"
+      "funFact": "Did you know? 'Jingle Bells' was originally written for Thanksgiving, not Christmas!",
+      "movie": {
+        "title": "A Charlie Brown Christmas",
+        "year": 1965,
+        "description": "Charlie Brown searches for the true meaning of Christmas while directing a school play. This classic teaches us that Christmas isn't about commercial things, but about love and friendship."
       }
     },
     {
       "day": 6,
       "unlockDate": "2025-12-06",
-      "title": "Day 6: Zaps ⚡",
-      "learn": "Zaps are Lightning payments sent directly through Nostr. With a single click, you can send sats to support creators, tip for great content, or reward helpful replies. Zaps include optional comments and are instantly visible. They're the native monetization mechanism of Nostr, enabling a value-for-value economy without intermediaries or platform fees.",
-      "app": {
-        "url": "https://zap.stream"
+      "title": "Day 6: The Nativity Scene",
+      "learn": "A nativity scene shows the story of Jesus' birth with small figures. It includes Mary, Joseph, baby Jesus, shepherds, wise men, and animals. This tradition started in Italy in 1223 when Saint Francis of Assisi created the first living nativity scene!",
+      "culture": {
+        "country": "Mexico",
+        "tradition": "Las Posadas",
+        "description": "In Mexico, families reenact Mary and Joseph's search for a place to stay. For nine nights before Christmas, they go from house to house singing and asking for 'posada' (shelter). The celebration ends with a party, piñatas, and special foods!"
       },
-      "person": {
-        "pubkey": "npub1cgcwm56v5hyrrzl5ty4vq4kdud63n5u4czgycdl2r3jshzk55ufqe52ndy"
+      "funFact": "Did you know? The largest nativity scene in the world has over 600 figures and is in Italy!",
+      "movie": {
+        "title": "The Muppet Christmas Carol",
+        "year": 1992,
+        "description": "The Muppets tell the classic story of Ebenezer Scrooge, who learns to love Christmas after visits from three ghosts. A fun musical version of a timeless tale!"
       }
     },
     {
       "day": 7,
       "unlockDate": "2025-12-07",
-      "title": "Day 7: Client Diversity",
-      "learn": "Nostr's open protocol enables a diverse ecosystem of clients. From mobile apps like Damus and Amethyst to web clients like Primal and Snort, each offers unique features and interfaces. This diversity means you're never locked into one app. Switch clients anytime while keeping your same identity and data across all of them.",
-      "app": {
-        "url": "https://zap.cooking"
+      "title": "Day 7: Christmas Stockings",
+      "learn": "The tradition of Christmas stockings comes from a story about Saint Nicholas, a kind bishop who helped poor people. Legend says he threw bags of gold down a chimney, and they landed in stockings hung to dry! Today, children hang stockings hoping for treats and small gifts.",
+      "culture": {
+        "country": "Netherlands",
+        "tradition": "Sinterklaas",
+        "description": "In the Netherlands, children celebrate Sinterklaas on December 5th. They leave their shoes by the fireplace with carrots for Sinterklaas's horse. In the morning, they find the carrots gone and their shoes filled with treats and small gifts!"
       },
-      "person": {
-        "pubkey": "npub15u3cqhx6vuj3rywg0ph5mfv009lxja6cyvqn2jagaydukq6zmjwqex05rq"
+      "funFact": "Did you know? The world's largest Christmas stocking was 106 feet long and could hold 1,000 presents!",
+      "movie": {
+        "title": "Rudolph the Red-Nosed Reindeer",
+        "year": 1964,
+        "description": "Rudolph is different because of his glowing red nose, but he learns that being different can be a superpower! He saves Christmas by guiding Santa's sleigh through a foggy night."
       }
     },
     {
       "day": 8,
       "unlockDate": "2025-12-08",
-      "title": "Day 8: Decentralized Identity",
-      "learn": "Your Nostr identity is truly yours. Your public key is your permanent identifier that works everywhere, and your private key proves ownership. No email verification, no phone numbers, no corporate approval needed. Your identity persists across clients, relays, and time. This is true self-sovereign identity in action.",
-      "app": {
-        "url": "https://nostrudel.ninja"
+      "title": "Day 8: Gingerbread Houses",
+      "learn": "Gingerbread houses became popular after the Brothers Grimm wrote 'Hansel and Gretel' in 1812! The story featured a house made of candy, which inspired people to create their own. Today, families build and decorate gingerbread houses with candy, frosting, and lots of creativity!",
+      "culture": {
+        "country": "Sweden",
+        "tradition": "St. Lucia's Day",
+        "description": "In Sweden, December 13th is St. Lucia's Day. The oldest daughter in each family dresses in white with a crown of candles and serves her family special saffron buns called 'lussekatter' early in the morning while singing traditional songs!"
       },
-      "person": {
-        "pubkey": "npub1q7why7lw8kq9ufr43ps75ngz3vhx5duqt7xmgklcq3dljqqfjegq2km2vr"
+      "funFact": "Did you know? The largest gingerbread house ever made was 60 feet long and used over 1,800 pounds of gingerbread!",
+      "movie": {
+        "title": "Frosty the Snowman",
+        "year": 1969,
+        "description": "A magical hat brings a snowman to life! Frosty and his friends go on an adventure to the North Pole before he melts. A classic story about friendship and magic!"
       }
     },
     {
       "day": 9,
       "unlockDate": "2025-12-09",
-      "title": "Day 9: Content Moderation",
-      "learn": "Nostr handles moderation through client-side filtering and relay policies, not centralized bans. You control what you see through mute lists, keyword filters, and relay selection. Relays can set their own policies, and you can choose relays that match your preferences. This approach preserves free speech while giving users control over their experience.",
-      "app": {
-        "url": "https://flotilla.social"
+      "title": "Day 9: The Three Wise Men",
+      "learn": "The Three Wise Men, also called the Magi, were three kings who followed a bright star to find baby Jesus. They brought special gifts: gold, frankincense, and myrrh. Their journey is remembered in many Christmas stories and songs around the world!",
+      "culture": {
+        "country": "Spain",
+        "tradition": "Three Kings Day",
+        "description": "In Spain, children receive most of their gifts on January 6th, called 'Three Kings Day' or 'Epiphany.' The night before, they leave their shoes out with hay for the kings' camels. In the morning, the hay is gone and the shoes are filled with presents!"
       },
-      "person": {
-        "pubkey": "npub1l8tlpvn3kka3nm2qpk96amsuy2kr5kl9eusd54fpn3yjnefrnpaq2j5t9v"
+      "funFact": "Did you know? In some countries, children write letters to the Three Wise Men instead of Santa Claus!",
+      "movie": {
+        "title": "The Nightmare Before Christmas",
+        "year": 1993,
+        "description": "Jack Skellington, the Pumpkin King of Halloween Town, discovers Christmas and tries to bring it to his spooky home. A unique and creative holiday movie!"
       }
     },
     {
       "day": 10,
       "unlockDate": "2025-12-10",
-      "title": "Day 10: Communities and Groups",
-      "learn": "Nostr supports communities through hashtags, mentions, and specialized event kinds. You can create topic-based groups, coordinate events, and build communities around shared interests. Unlike traditional platforms, these communities aren't walled gardens. They're open, interoperable, and accessible from any client that supports the relevant NIPs.",
-      "app": {
-        "url": "https://highlighter.com"
+      "title": "Day 10: Mistletoe Magic",
+      "learn": "Mistletoe is a special plant that grows on trees. Long ago, people believed it had magical powers and could bring peace. The tradition of kissing under mistletoe started in England. If you stand under mistletoe, you might get a friendly kiss!",
+      "culture": {
+        "country": "Iceland",
+        "tradition": "The 13 Yule Lads",
+        "description": "In Iceland, children don't have just one Santa! They have 13 mischievous trolls called 'Yule Lads' who visit one each night for 13 days before Christmas. Good children get treats in their shoes, but naughty children might get a potato instead!"
       },
-      "person": {
-        "pubkey": "npub1aesr9ql7h3xrrvyeqvujgz9zllca4a56cgjy5hj26plv5w78nhkq2m0d2r"
+      "funFact": "Did you know? Mistletoe berries are actually poisonous, so be careful around the real plant!",
+      "movie": {
+        "title": "Miracle on 34th Street",
+        "year": 1994,
+        "description": "A young girl learns to believe in Santa Claus when a man claiming to be the real Santa goes on trial. A heartwarming story about faith and wonder!"
       }
     },
     {
       "day": 11,
       "unlockDate": "2025-12-11",
-      "title": "Day 11: Long-form Content",
-      "learn": "Nostr isn't just for short posts. Addressable events (kind 30023) enable long-form articles, blog posts, and detailed content. These articles are stored on relays and can be referenced, shared, and commented on just like regular notes. You can publish full articles directly on Nostr without needing a separate blog platform.",
-      "app": {
-        "url": "https://habla.news"
+      "title": "Day 11: Christmas Cookies",
+      "learn": "Baking Christmas cookies is a fun tradition in many families! People have been making special cookies for Christmas for hundreds of years. Sugar cookies shaped like stars, trees, and snowmen are popular. Decorating them with frosting and sprinkles makes them extra special!",
+      "culture": {
+        "country": "Norway",
+        "tradition": "Hiding the Broom",
+        "description": "In Norway, families hide all their brooms on Christmas Eve! This old tradition comes from the belief that witches and evil spirits come out on Christmas Eve looking for brooms to ride. By hiding them, families keep their homes safe!"
       },
-      "person": {
-        "pubkey": "npub1el3mgvtdjpfntdkwq446pmprpdv85v6rs85zh7dq9gvy7tgx37xs2kl27r"
+      "funFact": "Did you know? Americans bake over 2 billion cookies during the Christmas season - that's enough for every person on Earth to have 3 cookies!",
+      "movie": {
+        "title": "The Santa Clause",
+        "year": 1994,
+        "description": "When Scott Calvin accidentally causes Santa to fall off his roof, he must become the new Santa! A fun movie about discovering the magic of being Santa Claus."
       }
     },
     {
       "day": 12,
       "unlockDate": "2025-12-12",
-      "title": "Day 12: Media Sharing",
-      "learn": "Nostr supports rich media through NIP-94 file attachments. Images, videos, and files can be attached to events using imeta tags that include URLs, MIME types, and alt text. Media is typically hosted on decentralized storage or specialized servers. This enables rich content sharing while maintaining the protocol's decentralized nature.",
-      "app": {
-        "url": "https://nostrnests.com"
+      "title": "Day 12: The Christmas Star",
+      "learn": "The Christmas star, also called the Star of Bethlehem, guided the Three Wise Men to baby Jesus. Today, people put a star on top of their Christmas tree to remember this special story. Stars remind us to shine bright and bring light to the world!",
+      "culture": {
+        "country": "Poland",
+        "tradition": "Wigilia - Christmas Eve Dinner",
+        "description": "In Poland, families have a very special dinner on Christmas Eve called 'Wigilia.' They wait until they see the first star in the sky before starting! The meal has 12 dishes (one for each apostle) and includes no meat. An extra place is always set for an unexpected guest."
       },
-      "person": {
-        "pubkey": "npub1e3mx09yq53gyh9368qyuhfstgk8t7p5vvfcnvgwa4994y7rqg37s20qvr5"
+      "funFact": "Did you know? The star on top of the Christmas tree is called a 'tree topper' and can be a star, an angel, or even a snowflake!",
+      "movie": {
+        "title": "A Christmas Story",
+        "year": 1983,
+        "description": "A young boy named Ralphie wants only one thing for Christmas: a Red Ryder BB gun. This funny movie shows what Christmas was like for kids in the 1940s!"
       }
     },
     {
       "day": 13,
       "unlockDate": "2025-12-13",
-      "title": "Day 13: Marketplace Applications",
-      "learn": "Nostr's flexible event system enables marketplace applications where users can buy and sell goods peer-to-peer. These marketplaces use specialized event kinds to list products, handle transactions, and manage reputation. Combined with Lightning payments, Nostr marketplaces enable direct commerce without intermediaries, fees, or platform lock-in.",
-      "app": {
-        "url": "https://nosotros.app"
+      "title": "Day 13: Reindeer and Sleigh",
+      "learn": "Santa's reindeer help him deliver presents all around the world! The most famous reindeer is Rudolph with his bright red nose. Reindeer are real animals that live in cold places like the North Pole. They're strong and can pull heavy sleighs through snow!",
+      "culture": {
+        "country": "Finland",
+        "tradition": "Santa's Official Home",
+        "description": "Finland claims to be the official home of Santa Claus! In Lapland, there's a special place called 'Santa's Village' where children can visit Santa, meet real reindeer, and even cross the Arctic Circle. It's a magical place where Christmas feels real!"
       },
-      "person": {
-        "pubkey": "npub16secklpnqey3el04fy2drfftsz5k26zlwdsnz84wtul2luwj8fdsugjdxk"
+      "funFact": "Did you know? Real reindeer can run up to 50 miles per hour - that's faster than most cars in a school zone!",
+      "movie": {
+        "title": "The Year Without a Santa Claus",
+        "year": 1974,
+        "description": "When Santa gets sick and decides to skip Christmas, two elves try to prove that people still care about the holiday. A story about the importance of Christmas spirit!"
       }
     },
     {
       "day": 14,
       "unlockDate": "2025-12-14",
-      "title": "Day 14: Event Kinds",
-      "learn": "Nostr events are categorized by 'kinds' - numbers that define the event type. Kind 1 is a text note, kind 0 is profile metadata, kind 3 is a contact list. Higher numbers enable specialized features like articles (30023), marketplace listings (30402), and calendar events (31922). This extensible system allows unlimited innovation while maintaining compatibility.",
-      "app": {
-        "url": "https://snort.social"
+      "title": "Day 14: Christmas Cards",
+      "learn": "Sending Christmas cards is a way to share holiday cheer with friends and family far away! The first Christmas card was created in England in 1843. Today, people send millions of cards with pictures of snowmen, Santa, and winter scenes to spread joy!",
+      "culture": {
+        "country": "Japan",
+        "tradition": "Christmas KFC",
+        "description": "In Japan, many families eat Kentucky Fried Chicken for Christmas dinner! This started in the 1970s when KFC ran a marketing campaign. Now it's so popular that people order their Christmas KFC months in advance. It's become a fun tradition!"
       },
-      "person": {
-        "pubkey": "npub16eumpaxffppswucpeysysrya9uk39j06d5gr2tsnf6cupq3f4jdqyft6jc"
+      "funFact": "Did you know? Americans send over 1.6 billion Christmas cards each year - that's more than 5 cards for every person in the country!",
+      "movie": {
+        "title": "Home Alone 2: Lost in New York",
+        "year": 1992,
+        "description": "Kevin gets separated from his family again, this time in New York City! He must outsmart the same burglars while exploring the Big Apple during Christmas."
       }
     },
     {
       "day": 15,
       "unlockDate": "2025-12-15",
-      "title": "Day 15: Private Messages",
-      "learn": "Nostr supports encrypted direct messages through NIP-04 (legacy) and NIP-17 (modern). Messages are encrypted end-to-end using the recipient's public key, ensuring only they can read them. Relays store encrypted messages but can't read the content. This provides true private communication without trusting any central server.",
-      "app": {
-        "url": "https://coracle.social"
+      "title": "Day 15: The Nutcracker",
+      "learn": "Nutcrackers are decorative figures that look like soldiers or kings. They were originally tools to crack nuts, but now they're popular Christmas decorations! The famous 'Nutcracker' ballet tells a magical story about a nutcracker that comes to life on Christmas Eve.",
+      "culture": {
+        "country": "Russia",
+        "tradition": "Grandfather Frost and Snow Maiden",
+        "description": "In Russia, children wait for 'Ded Moroz' (Grandfather Frost) and his granddaughter 'Snegurochka' (Snow Maiden) to bring gifts on New Year's Eve. They travel in a troika (a sleigh pulled by three horses) and visit children with presents and New Year's wishes!"
       },
-      "person": {
-        "pubkey": "npub1dgpt04w4c88wc0g262xaw8zvlm4mvwtmjhl0tn2sxtyjywsn6q4qt8ka3a"
+      "funFact": "Did you know? The largest nutcracker collection in the world has over 7,000 different nutcrackers!",
+      "movie": {
+        "title": "The Nutcracker and the Four Realms",
+        "year": 2018,
+        "description": "A young girl enters a magical world where she must save the Four Realms from an evil ruler. Based on the classic Nutcracker story with beautiful visuals!"
       }
     },
     {
       "day": 16,
       "unlockDate": "2025-12-16",
-      "title": "Day 16: Building on Nostr",
-      "learn": "Building on Nostr is straightforward. The protocol is simple, with events, relays, and cryptographic signatures as core concepts. Developers can create clients, relays, or applications using any programming language. The open protocol and extensive NIP documentation make it easy to build innovative applications that integrate with the entire Nostr ecosystem.",
-      "app": {
-        "url": "https://www.keychat.io"
+      "title": "Day 16: Poinsettias",
+      "learn": "Poinsettias are beautiful red and green plants that are popular at Christmas! They're named after Joel Poinsett, who brought them to America from Mexico in the 1820s. In Mexico, they're called 'Flores de Noche Buena' (Flowers of the Holy Night) and are used in Christmas celebrations!",
+      "culture": {
+        "country": "Mexico",
+        "tradition": "Nacimientos",
+        "description": "In Mexico, families create elaborate nativity scenes called 'nacimientos' that include not just the holy family, but entire villages with mountains, rivers, and many figures. These beautiful displays are often the centerpiece of Christmas decorations in Mexican homes!"
       },
-      "person": {
-        "pubkey": "npub12z8jsett3k6rv9fa2guau5p540qr2xuvjzkr8e432mglafjt99sqkw9zmx"
+      "funFact": "Did you know? Poinsettias are the most popular potted plant in the United States, with over 70 million sold each year!",
+      "movie": {
+        "title": "Arthur Christmas",
+        "year": 2011,
+        "description": "When one present is missed on Christmas Eve, Santa's clumsy son Arthur sets out on a mission to deliver it. A modern animated movie about never giving up!"
       }
     },
     {
       "day": 17,
       "unlockDate": "2025-12-17",
-      "title": "Day 17: Nostr Badges",
-      "learn": "Nostr badges (NIP-58) enable achievements, credentials, and digital recognition. Badges are issued by badge creators and can represent anything from event attendance to skill verification. They're stored as events and can be displayed in profiles. This system enables reputation, credentials, and gamification without centralized authority.",
-      "app": {
-        "url": "https://badges.page"
+      "title": "Day 17: Candy Canes",
+      "learn": "Candy canes are red and white striped candies shaped like a shepherd's staff! They were invented in Germany over 350 years ago. The white stripes represent purity, and the red represents the blood of Jesus. Today, they're one of the most popular Christmas treats!",
+      "culture": {
+        "country": "Australia",
+        "tradition": "Christmas in Summer",
+        "description": "In Australia, Christmas comes during summer! While people in the Northern Hemisphere have snow, Australians celebrate with beach parties, barbecues, and outdoor activities. Some people even have 'Carols by Candlelight' concerts outside under the stars!"
       },
-      "person": {
-        "pubkey": "npub12gu8c6uee3p243gez6cgk76362admlqe72aq3kp2fppjsjwmm7eqj9fle6"
+      "funFact": "Did you know? Over 1.76 billion candy canes are made each year - that's enough to reach from the North Pole to the South Pole and back again!",
+      "movie": {
+        "title": "The Grinch",
+        "year": 2018,
+        "description": "A grumpy green creature tries to ruin Christmas for the cheerful Whoville, but learns that Christmas joy can't be stolen. A colorful animated remake of the classic story!"
       }
     },
     {
       "day": 18,
       "unlockDate": "2025-12-18",
-      "title": "Day 18: Audio and Podcasting",
-      "learn": "Nostr supports audio content and podcasting through specialized event kinds and media attachments. Podcasters can publish episodes, show notes, and metadata directly on Nostr. Listeners can subscribe, comment, and zap creators. This enables decentralized podcasting where creators own their content and audience relationships.",
-      "app": {
-        "url": "https://wavlake.com"
+      "title": "Day 18: Christmas Wreaths",
+      "learn": "Christmas wreaths are circular decorations made from evergreen branches, holly, and berries. They're hung on doors to welcome visitors. The circle shape has no beginning or end, symbolizing eternal life. Wreaths have been used for thousands of years as symbols of victory and celebration!",
+      "culture": {
+        "country": "Greece",
+        "tradition": "St. Nicholas Day",
+        "description": "In Greece, St. Nicholas is the patron saint of sailors. On December 6th, children receive small gifts. But the main gift-giving happens on New Year's Day when St. Basil brings presents. Children leave their shoes by the fireplace hoping for treats!"
       },
-      "person": {
-        "pubkey": "npub1nl8r463jkdtr0qu0k3dht03jt9t59cttk0j8gtxg9wea2russlnq2zf9d0"
+      "funFact": "Did you know? The tradition of hanging wreaths on doors started in ancient Rome, where they were symbols of victory!",
+      "movie": {
+        "title": "Klaus",
+        "year": 2019,
+        "description": "A postman befriends a reclusive toymaker and together they bring joy to a sad town. This beautiful movie shows how the legend of Santa Claus might have started!"
       }
     },
     {
       "day": 19,
       "unlockDate": "2025-12-19",
-      "title": "Day 19: Calendar Events",
-      "learn": "Nostr calendar events (NIP-52) enable decentralized event coordination. You can create, share, and RSVP to events directly on Nostr. Events include dates, locations, descriptions, and can be referenced by other events. This creates a decentralized calendar system where events are owned by creators, not platforms.",
-      "app": {
-        "url": "https://cornychat.com"
+      "title": "Day 19: The Yule Log",
+      "learn": "The Yule log is an old tradition from Northern Europe! Families would bring a large log into their home on Christmas Eve and burn it for 12 days. It was believed to bring good luck and protect the home. Today, some people make Yule log cakes that look like logs!",
+      "culture": {
+        "country": "France",
+        "tradition": "Le Réveillon",
+        "description": "In France, families have a huge feast called 'Le Réveillon' after midnight mass on Christmas Eve. The meal can last for hours and includes special foods like oysters, foie gras, and a delicious cake called 'bûche de Noël' (Yule log cake)!"
       },
-      "person": {
-        "pubkey": "npub1yx6pjypd4r7qh2gysjhvjd9l2km6hnm4amdnjyjw3467fy05rf0qfp7kza"
+      "funFact": "Did you know? The Yule log tradition is over 1,000 years old and comes from ancient winter solstice celebrations!",
+      "movie": {
+        "title": "The Christmas Chronicles",
+        "year": 2018,
+        "description": "Two siblings team up with Santa Claus to save Christmas after accidentally crashing his sleigh. An exciting adventure with lots of Christmas magic!"
       }
     },
     {
       "day": 20,
       "unlockDate": "2025-12-20",
-      "title": "Day 20: Data Portability",
-      "learn": "True data portability is built into Nostr. Your events are stored on relays, and you can export them anytime. Switch clients, change relays, or run your own relay - your data moves with you. This is the opposite of platform lock-in. Your social graph, posts, and relationships are truly yours to take anywhere.",
-      "app": {
-        "url": "https://hivetalk.org"
+      "title": "Day 20: Christmas Ornaments",
+      "learn": "Christmas ornaments make trees sparkle and shine! The first glass ornaments were made in Germany in the 1800s. Before that, people decorated trees with fruits, nuts, and paper. Today, families collect special ornaments that tell stories and create memories year after year!",
+      "culture": {
+        "country": "Brazil",
+        "tradition": "Papai Noel",
+        "description": "In Brazil, Santa Claus is called 'Papai Noel' and arrives by helicopter because it's so hot! Since Christmas is in summer there, people celebrate with fireworks, beach parties, and special foods. Some cities even have fake snow to make it feel more like Christmas!"
       },
-      "person": {
-        "pubkey": "npub1hgvtv4zn2l8l3ef34n87r4sf5s00xq3lhgr3mvwt7kn8gjxpjprqc89jnv"
+      "funFact": "Did you know? The world's largest Christmas ornament was 30 feet tall and weighed over 4,000 pounds!",
+      "movie": {
+        "title": "Noelle",
+        "year": 2019,
+        "description": "Santa's daughter must find her missing brother and save Christmas. A fun movie about a strong girl who proves she can do anything!"
       }
     },
     {
       "day": 21,
       "unlockDate": "2025-12-21",
-      "title": "Day 21: Nostr Bridges",
-      "learn": "Nostr bridges connect the protocol with other platforms and protocols. Bridges can import content from Twitter, RSS feeds, or other sources, making them available on Nostr. They can also export Nostr content elsewhere. This interoperability expands Nostr's reach while maintaining the protocol's decentralized core.",
-      "app": {
-        "url": "https://treasures.to"
+      "title": "Day 21: The Christmas Pickle",
+      "learn": "The Christmas pickle is a fun tradition! A glass pickle ornament is hidden somewhere on the Christmas tree. On Christmas morning, the first child to find it gets an extra present or gets to open the first gift. This tradition is popular in America, though its origins are mysterious!",
+      "culture": {
+        "country": "South Africa",
+        "tradition": "Braai and Beach",
+        "description": "In South Africa, Christmas is a summer holiday! Many families celebrate with a 'braai' (barbecue) on the beach. People enjoy the warm weather, play games, and have picnics. Some even go camping or visit the beach on Christmas Day!"
       },
-      "person": {
-        "pubkey": "npub1vwymuey3u7mf860ndrkw3r7dz30s0srg6tqmhtjzg7umtm6rn5eq2qzugd"
+      "funFact": "Did you know? The Christmas pickle tradition might have started as a marketing trick by a glass ornament company in the 1800s!",
+      "movie": {
+        "title": "The Princess Switch",
+        "year": 2018,
+        "description": "A baker and a duchess who look identical switch places and both find love at Christmas. A sweet story about discovering what's truly important!"
       }
     },
     {
       "day": 22,
       "unlockDate": "2025-12-22",
-      "title": "Day 22: Web of Trust",
-      "learn": "Nostr enables a web of trust through follows, contact lists, and social connections. Your contact list (kind 3) defines who you trust, and clients can use this to filter content. This creates organic trust networks where reputation emerges from relationships, not algorithms. Trust is distributed, not centralized.",
-      "app": {
-        "url": "https://www.fountain.fm"
+      "title": "Day 22: The Twelve Days of Christmas",
+      "learn": "The Twelve Days of Christmas start on December 25th and end on January 5th! This period includes many special days. In some countries, gifts are given on each of the twelve days. The famous song 'The Twelve Days of Christmas' lists all the gifts in the song!",
+      "culture": {
+        "country": "Ethiopia",
+        "tradition": "Ganna - Christmas on January 7th",
+        "description": "In Ethiopia, Christmas (called 'Ganna') is celebrated on January 7th! People dress in white, go to church for special services that can last all night, and then celebrate with a big feast. Children receive new clothes as gifts, and families play games together."
       },
-      "person": {
-        "pubkey": "npub1zafcms4xya5ap9zr7xxr0jlrtrattwlesytn2s42030lzu0dwlzqpd26k5"
+      "funFact": "Did you know? If you add up all the gifts in 'The Twelve Days of Christmas' song, you get 364 presents - one for almost every day of the year!",
+      "movie": {
+        "title": "Jingle Jangle: A Christmas Journey",
+        "year": 2020,
+        "description": "A toymaker's granddaughter helps him rediscover his magic and save his shop. A musical adventure about believing in yourself and the power of imagination!"
       }
     },
     {
       "day": 23,
       "unlockDate": "2025-12-23",
-      "title": "Day 23: The Future of Nostr",
-      "learn": "Nostr's future is shaped by its community. New NIPs are proposed regularly, expanding capabilities. The protocol's simplicity and openness enable rapid innovation. As adoption grows, we'll see more clients, relays, and applications. The future is decentralized, interoperable, and user-controlled. Nostr is just getting started.",
-      "app": {
-        "url": "https://yakbak.app"
+      "title": "Day 23: Christmas Eve Traditions",
+      "learn": "Christmas Eve is the night before Christmas Day! Many families have special traditions like reading 'Twas the Night Before Christmas,' leaving out cookies and milk for Santa, or opening one special gift. It's a magical night full of anticipation and excitement!",
+      "culture": {
+        "country": "Ukraine",
+        "tradition": "Spider Web Decorations",
+        "description": "In Ukraine, families decorate their Christmas trees with spider web ornaments! This comes from a legend about a poor family whose tree was decorated by a kind spider. The webs turned to silver and gold, bringing the family good fortune. Today, people hang tinsel that looks like spider webs!"
       },
-      "person": {
-        "pubkey": "npub1f5pre6wl6ad87vr4hr5wppqq30sh58m4p33mthnjreh03qadcajs7gwt3z"
+      "funFact": "Did you know? In many countries, the biggest celebration happens on Christmas Eve, not Christmas Day!",
+      "movie": {
+        "title": "A Boy Called Christmas",
+        "year": 2021,
+        "description": "A young boy named Nikolas goes on an adventure to find his father and discovers the magical village of Elfhelm. This is the origin story of how Santa Claus came to be!"
       }
     },
     {
       "day": 24,
       "unlockDate": "2025-12-24",
-      "title": "Day 24: Join the Movement",
-      "learn": "Nostr is more than a protocol - it's a movement toward decentralized, user-controlled social networking. Join by creating an account, exploring clients, following interesting people, and contributing to the ecosystem. Whether you're a user, developer, or creator, there's a place for you. Welcome to the future of social media.",
-      "app": {
-        "url": "https://shopstr.store"
+      "title": "Day 24: Christmas Day Around the World",
+      "learn": "Christmas Day is celebrated in over 160 countries around the world! While traditions vary, the spirit of love, giving, and togetherness is the same everywhere. Whether it's snowing or sunny, whether gifts come from Santa or the Three Kings, Christmas brings joy to millions of children and families!",
+      "culture": {
+        "country": "All Around the World",
+        "tradition": "The Spirit of Christmas",
+        "description": "No matter where you are in the world, Christmas is about love, family, and giving. Some celebrate with snow and hot cocoa, others with beaches and sunshine. Some open gifts on Christmas Eve, others on Christmas Day or even later. But everywhere, Christmas is a time of joy, kindness, and coming together!"
       },
-      "person": {
-        "pubkey": "npub1rjwumr7j6tac08t0qttvc44walt549nc4eyyxjc0phn6yxzj7uzq0accc9"
+      "funFact": "Did you know? Christmas is celebrated by over 2 billion people around the world - that's almost one-third of all people on Earth! Merry Christmas! 🎄",
+      "movie": {
+        "title": "It's a Wonderful Life",
+        "year": 1946,
+        "description": "An angel shows a man how different the world would be if he had never been born. This classic movie teaches us that every person makes a difference and that friendship is the greatest gift of all!"
       }
     }
   ]
