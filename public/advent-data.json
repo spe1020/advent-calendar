@@ -2,7 +2,7 @@
   "days": [
     {
       "day": 1,
-      "unlockDate": "2024-12-01",
+      "unlockDate": "2025-12-01",
       "title": "Day 1: What Is Nostr?",
       "learn": "Nostr stands for 'Notes and Other Stuff Transmitted by Relays.' It's a simple, open protocol that enables global, decentralized, and censorship-resistant social networking. Unlike traditional platforms, you own your identity and data. Your account is a cryptographic keypair that works across any Nostr client or app.",
       "app": {
@@ -14,7 +14,7 @@
     },
     {
       "day": 2,
-      "unlockDate": "2024-12-02",
+      "unlockDate": "2025-12-02",
       "title": "Day 2: Public Key Cryptography",
       "learn": "Nostr uses public key cryptography to secure your identity. Your public key (npub) is your address on the network, while your private key (nsec) signs your messages. This cryptographic foundation means no central authority can ban or control your account. Your keys are your identity, and they work across every Nostr client.",
       "app": {
@@ -26,7 +26,7 @@
     },
     {
       "day": 3,
-      "unlockDate": "2024-12-03",
+      "unlockDate": "2025-12-03",
       "title": "Day 3: Relays Explained",
       "learn": "Relays are lightweight servers that store and forward Nostr events. They don't own your data or control your account. You can use multiple relays for redundancy, and switch between them freely. Unlike traditional platforms, relays are interchangeable infrastructure, not gatekeepers. Your data remains yours regardless of which relay you use.",
       "app": {
@@ -38,7 +38,7 @@
     },
     {
       "day": 4,
-      "unlockDate": "2024-12-04",
+      "unlockDate": "2025-12-04",
       "title": "Day 4: NIPs - Nostr Implementation Possibilities",
       "learn": "NIPs (Nostr Implementation Possibilities) are proposals that extend the protocol's capabilities. From basic text notes (NIP-01) to Lightning zaps (NIP-57) and encrypted messages (NIP-04), NIPs document how features work. Anyone can propose a NIP, and the community decides what gets adopted. This open process drives innovation.",
       "app": {
@@ -50,7 +50,7 @@
     },
     {
       "day": 5,
-      "unlockDate": "2024-12-05",
+      "unlockDate": "2025-12-05",
       "title": "Day 5: Lightning Network Integration",
       "learn": "Nostr integrates seamlessly with Bitcoin's Lightning Network for instant micropayments. Lightning addresses (like user@domain.com) enable direct payments without on-chain fees. This integration powers zaps, allowing you to send value instantly to support creators. Lightning makes Nostr a true value-for-value network where content creators can monetize directly.",
       "app": {
@@ -62,7 +62,7 @@
     },
     {
       "day": 6,
-      "unlockDate": "2024-12-06",
+      "unlockDate": "2025-12-06",
       "title": "Day 6: Zaps ⚡",
       "learn": "Zaps are Lightning payments sent directly through Nostr. With a single click, you can send sats to support creators, tip for great content, or reward helpful replies. Zaps include optional comments and are instantly visible. They're the native monetization mechanism of Nostr, enabling a value-for-value economy without intermediaries or platform fees.",
       "app": {
@@ -74,7 +74,7 @@
     },
     {
       "day": 7,
-      "unlockDate": "2024-12-07",
+      "unlockDate": "2025-12-07",
       "title": "Day 7: Client Diversity",
       "learn": "Nostr's open protocol enables a diverse ecosystem of clients. From mobile apps like Damus and Amethyst to web clients like Primal and Snort, each offers unique features and interfaces. This diversity means you're never locked into one app. Switch clients anytime while keeping your same identity and data across all of them.",
       "app": {
@@ -86,7 +86,7 @@
     },
     {
       "day": 8,
-      "unlockDate": "2024-12-08",
+      "unlockDate": "2025-12-08",
       "title": "Day 8: Decentralized Identity",
       "learn": "Your Nostr identity is truly yours. Your public key is your permanent identifier that works everywhere, and your private key proves ownership. No email verification, no phone numbers, no corporate approval needed. Your identity persists across clients, relays, and time. This is true self-sovereign identity in action.",
       "app": {
@@ -98,7 +98,7 @@
     },
     {
       "day": 9,
-      "unlockDate": "2024-12-09",
+      "unlockDate": "2025-12-09",
       "title": "Day 9: Content Moderation",
       "learn": "Nostr handles moderation through client-side filtering and relay policies, not centralized bans. You control what you see through mute lists, keyword filters, and relay selection. Relays can set their own policies, and you can choose relays that match your preferences. This approach preserves free speech while giving users control over their experience.",
       "app": {
@@ -110,7 +110,7 @@
     },
     {
       "day": 10,
-      "unlockDate": "2024-12-10",
+      "unlockDate": "2025-12-10",
       "title": "Day 10: Communities and Groups",
       "learn": "Nostr supports communities through hashtags, mentions, and specialized event kinds. You can create topic-based groups, coordinate events, and build communities around shared interests. Unlike traditional platforms, these communities aren't walled gardens. They're open, interoperable, and accessible from any client that supports the relevant NIPs.",
       "app": {
@@ -122,7 +122,7 @@
     },
     {
       "day": 11,
-      "unlockDate": "2024-12-11",
+      "unlockDate": "2025-12-11",
       "title": "Day 11: Long-form Content",
       "learn": "Nostr isn't just for short posts. Addressable events (kind 30023) enable long-form articles, blog posts, and detailed content. These articles are stored on relays and can be referenced, shared, and commented on just like regular notes. You can publish full articles directly on Nostr without needing a separate blog platform.",
       "app": {
@@ -134,7 +134,7 @@
     },
     {
       "day": 12,
-      "unlockDate": "2024-12-12",
+      "unlockDate": "2025-12-12",
       "title": "Day 12: Media Sharing",
       "learn": "Nostr supports rich media through NIP-94 file attachments. Images, videos, and files can be attached to events using imeta tags that include URLs, MIME types, and alt text. Media is typically hosted on decentralized storage or specialized servers. This enables rich content sharing while maintaining the protocol's decentralized nature.",
       "app": {
@@ -146,7 +146,7 @@
     },
     {
       "day": 13,
-      "unlockDate": "2024-12-13",
+      "unlockDate": "2025-12-13",
       "title": "Day 13: Marketplace Applications",
       "learn": "Nostr's flexible event system enables marketplace applications where users can buy and sell goods peer-to-peer. These marketplaces use specialized event kinds to list products, handle transactions, and manage reputation. Combined with Lightning payments, Nostr marketplaces enable direct commerce without intermediaries, fees, or platform lock-in.",
       "app": {
@@ -158,7 +158,7 @@
     },
     {
       "day": 14,
-      "unlockDate": "2024-12-14",
+      "unlockDate": "2025-12-14",
       "title": "Day 14: Event Kinds",
       "learn": "Nostr events are categorized by 'kinds' - numbers that define the event type. Kind 1 is a text note, kind 0 is profile metadata, kind 3 is a contact list. Higher numbers enable specialized features like articles (30023), marketplace listings (30402), and calendar events (31922). This extensible system allows unlimited innovation while maintaining compatibility.",
       "app": {
@@ -170,7 +170,7 @@
     },
     {
       "day": 15,
-      "unlockDate": "2024-12-15",
+      "unlockDate": "2025-12-15",
       "title": "Day 15: Private Messages",
       "learn": "Nostr supports encrypted direct messages through NIP-04 (legacy) and NIP-17 (modern). Messages are encrypted end-to-end using the recipient's public key, ensuring only they can read them. Relays store encrypted messages but can't read the content. This provides true private communication without trusting any central server.",
       "app": {
@@ -182,7 +182,7 @@
     },
     {
       "day": 16,
-      "unlockDate": "2024-12-16",
+      "unlockDate": "2025-12-16",
       "title": "Day 16: Building on Nostr",
       "learn": "Building on Nostr is straightforward. The protocol is simple, with events, relays, and cryptographic signatures as core concepts. Developers can create clients, relays, or applications using any programming language. The open protocol and extensive NIP documentation make it easy to build innovative applications that integrate with the entire Nostr ecosystem.",
       "app": {
@@ -194,7 +194,7 @@
     },
     {
       "day": 17,
-      "unlockDate": "2024-12-17",
+      "unlockDate": "2025-12-17",
       "title": "Day 17: Nostr Badges",
       "learn": "Nostr badges (NIP-58) enable achievements, credentials, and digital recognition. Badges are issued by badge creators and can represent anything from event attendance to skill verification. They're stored as events and can be displayed in profiles. This system enables reputation, credentials, and gamification without centralized authority.",
       "app": {
@@ -206,7 +206,7 @@
     },
     {
       "day": 18,
-      "unlockDate": "2024-12-18",
+      "unlockDate": "2025-12-18",
       "title": "Day 18: Audio and Podcasting",
       "learn": "Nostr supports audio content and podcasting through specialized event kinds and media attachments. Podcasters can publish episodes, show notes, and metadata directly on Nostr. Listeners can subscribe, comment, and zap creators. This enables decentralized podcasting where creators own their content and audience relationships.",
       "app": {
@@ -218,7 +218,7 @@
     },
     {
       "day": 19,
-      "unlockDate": "2024-12-19",
+      "unlockDate": "2025-12-19",
       "title": "Day 19: Calendar Events",
       "learn": "Nostr calendar events (NIP-52) enable decentralized event coordination. You can create, share, and RSVP to events directly on Nostr. Events include dates, locations, descriptions, and can be referenced by other events. This creates a decentralized calendar system where events are owned by creators, not platforms.",
       "app": {
@@ -230,7 +230,7 @@
     },
     {
       "day": 20,
-      "unlockDate": "2024-12-20",
+      "unlockDate": "2025-12-20",
       "title": "Day 20: Data Portability",
       "learn": "True data portability is built into Nostr. Your events are stored on relays, and you can export them anytime. Switch clients, change relays, or run your own relay - your data moves with you. This is the opposite of platform lock-in. Your social graph, posts, and relationships are truly yours to take anywhere.",
       "app": {
@@ -242,7 +242,7 @@
     },
     {
       "day": 21,
-      "unlockDate": "2024-12-21",
+      "unlockDate": "2025-12-21",
       "title": "Day 21: Nostr Bridges",
       "learn": "Nostr bridges connect the protocol with other platforms and protocols. Bridges can import content from Twitter, RSS feeds, or other sources, making them available on Nostr. They can also export Nostr content elsewhere. This interoperability expands Nostr's reach while maintaining the protocol's decentralized core.",
       "app": {
@@ -254,7 +254,7 @@
     },
     {
       "day": 22,
-      "unlockDate": "2024-12-22",
+      "unlockDate": "2025-12-22",
       "title": "Day 22: Web of Trust",
       "learn": "Nostr enables a web of trust through follows, contact lists, and social connections. Your contact list (kind 3) defines who you trust, and clients can use this to filter content. This creates organic trust networks where reputation emerges from relationships, not algorithms. Trust is distributed, not centralized.",
       "app": {
@@ -266,7 +266,7 @@
     },
     {
       "day": 23,
-      "unlockDate": "2024-12-23",
+      "unlockDate": "2025-12-23",
       "title": "Day 23: The Future of Nostr",
       "learn": "Nostr's future is shaped by its community. New NIPs are proposed regularly, expanding capabilities. The protocol's simplicity and openness enable rapid innovation. As adoption grows, we'll see more clients, relays, and applications. The future is decentralized, interoperable, and user-controlled. Nostr is just getting started.",
       "app": {
@@ -278,7 +278,7 @@
     },
     {
       "day": 24,
-      "unlockDate": "2024-12-24",
+      "unlockDate": "2025-12-24",
       "title": "Day 24: Join the Movement",
       "learn": "Nostr is more than a protocol - it's a movement toward decentralized, user-controlled social networking. Join by creating an account, exploring clients, following interesting people, and contributing to the ecosystem. Whether you're a user, developer, or creator, there's a place for you. Welcome to the future of social media.",
       "app": {

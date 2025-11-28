@@ -7,12 +7,15 @@ import {
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ExternalLink, Copy, Check, User } from 'lucide-react';
+import { Textarea } from '@/components/ui/textarea';
+import { ExternalLink, Copy, Check, User, Send } from 'lucide-react';
 import { useAuthor } from '@/hooks/useAuthor';
 import { useAuthorNotes } from '@/hooks/useAuthorNotes';
 import { useAppMetadata } from '@/hooks/useAppMetadata';
 import { useToast } from '@/hooks/useToast';
-import { useState, useMemo } from 'react';
+import { useCurrentUser } from '@/hooks/useCurrentUser';
+import { useNostrPublish } from '@/hooks/useNostrPublish';
+import { useState, useMemo, useEffect } from 'react';
 import { nip19 } from 'nostr-tools';
 import { FeedNote } from '@/components/FeedNote';
 
@@ -48,7 +51,9 @@ interface AdventDayModalProps {
 
 export function AdventDayModal({ isOpen, onClose, dayContent }: AdventDayModalProps) {
   const { toast } = useToast();
+  const { user } = useCurrentUser();
   const [copiedNpub, setCopiedNpub] = useState<string | null>(null);
+  const [showPostForm, setShowPostForm] = useState(false);
 
   const handleCopyNpub = async (npub: string) => {
     try {
@@ -116,6 +121,15 @@ export function AdventDayModal({ isOpen, onClose, dayContent }: AdventDayModalPr
               copiedNpub={copiedNpub}
               onCopyNpub={handleCopyNpub}
               onFollow={handleFollowNostr}
+            />
+          )}
+
+          {/* Post Note Form */}
+          {user && (
+            <PostDayNoteForm
+              dayContent={dayContent}
+              showForm={showPostForm}
+              onToggleForm={() => setShowPostForm(!showPostForm)}
             />
           )}
         </div>
@@ -331,6 +345,208 @@ function PersonCard({
             </p>
           )}
         </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+function PostDayNoteForm({
+  dayContent,
+  showForm,
+  onToggleForm,
+}: {
+  dayContent: DayContent;
+  showForm: boolean;
+  onToggleForm: () => void;
+}) {
+  const { toast } = useToast();
+  const { mutate: publishNote, isPending } = useNostrPublish();
+  const appMetadata = useAppMetadata(dayContent.app?.url);
+
+  // Get npub for person to follow
+  const personNpub = useMemo(() => {
+    if (!dayContent.person) return '';
+    if (dayContent.person.pubkey.startsWith('npub')) {
+      return dayContent.person.pubkey;
+    }
+    try {
+      return nip19.npubEncode(dayContent.person.pubkey);
+    } catch {
+      return dayContent.person.pubkey;
+    }
+  }, [dayContent.person]);
+
+  // Get app name
+  const appName = dayContent.app
+    ? (appMetadata.data?.title || dayContent.app.name || new URL(dayContent.app.url).hostname)
+    : '';
+
+  // Template content - reset when dayContent changes
+  const [summary, setSummary] = useState('');
+  const [learn, setLearn] = useState(dayContent.learn);
+  const [app, setApp] = useState(dayContent.app?.url || '');
+  const [person, setPerson] = useState(personNpub);
+
+  // Reset form when day content changes
+  useEffect(() => {
+    setSummary('');
+    setLearn(dayContent.learn);
+    setApp(dayContent.app?.url || '');
+    setPerson(personNpub);
+  }, [dayContent.day, dayContent.learn, dayContent.app?.url, personNpub]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!summary.trim()) {
+      toast({
+        title: 'Summary required',
+        description: 'Please add a brief summary for this day',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    // Build the note content with template format
+    let content = `🎄 Day ${dayContent.day}: ${dayContent.title}\n\n`;
+    content += `📝 ${summary}\n\n`;
+    content += `📚 Learn:\n${learn}\n\n`;
+
+    if (app) {
+      content += `🟣 App of the Day: ${appName}\n${app}\n\n`;
+    }
+
+    if (person) {
+      content += `👤 Person to Follow: ${person}\n`;
+    }
+
+    // Add hashtag for advent calendar
+    content += `\n#NostrAdvent2025`;
+
+    try {
+      await publishNote({
+        kind: 1,
+        content,
+        tags: [
+          ['t', 'NostrAdvent2025'],
+          ['t', `day${dayContent.day}`],
+        ],
+      });
+
+      toast({
+        title: 'Posted!',
+        description: 'Your note has been published to Nostr',
+      });
+
+      // Reset form
+      setSummary('');
+      setLearn(dayContent.learn);
+      setApp(dayContent.app?.url || '');
+      setPerson(personNpub);
+      onToggleForm();
+    } catch {
+      toast({
+        title: 'Error',
+        description: 'Failed to publish note. Please try again.',
+        variant: 'destructive',
+      });
+    }
+  };
+
+  if (!showForm) {
+    return (
+      <Card>
+        <CardContent className="pt-6">
+          <Button
+            onClick={onToggleForm}
+            variant="outline"
+            className="w-full"
+          >
+            <Send className="w-4 h-4 mr-2" />
+            Share with Nostr Community
+          </Button>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle className="text-base">📝 Post a Note</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="text-sm font-medium mb-2 block">
+              Brief Summary *
+            </label>
+            <Textarea
+              value={summary}
+              onChange={(e) => setSummary(e.target.value)}
+              placeholder="Add a brief summary of this day..."
+              className="min-h-[80px]"
+              required
+            />
+          </div>
+
+          <div>
+            <label className="text-sm font-medium mb-2 block">
+              📚 Learning
+            </label>
+            <Textarea
+              value={learn}
+              onChange={(e) => setLearn(e.target.value)}
+              className="min-h-[100px]"
+            />
+          </div>
+
+          {dayContent.app && (
+            <div>
+              <label className="text-sm font-medium mb-2 block">
+                🟣 App of the Day
+              </label>
+              <Textarea
+                value={app}
+                onChange={(e) => setApp(e.target.value)}
+                placeholder="App URL"
+                className="min-h-[60px]"
+              />
+            </div>
+          )}
+
+          {dayContent.person && (
+            <div>
+              <label className="text-sm font-medium mb-2 block">
+                👤 Person to Follow
+              </label>
+              <Textarea
+                value={person}
+                onChange={(e) => setPerson(e.target.value)}
+                placeholder="npub..."
+                className="min-h-[60px] font-mono text-sm"
+              />
+            </div>
+          )}
+
+          <div className="flex gap-2">
+            <Button
+              type="submit"
+              disabled={isPending || !summary.trim()}
+              className="flex-1"
+            >
+              {isPending ? 'Publishing...' : 'Publish Note'}
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={onToggleForm}
+              disabled={isPending}
+            >
+              Cancel
+            </Button>
+          </div>
+        </form>
       </CardContent>
     </Card>
   );

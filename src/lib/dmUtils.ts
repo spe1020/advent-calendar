@@ -46,7 +46,7 @@ export function getConversationPartner(event: NostrEvent, userPubkey: string): s
  * Yesterday: "Yesterday"
  * This week: Day name (e.g., "Mon")
  * This year: Month and day (e.g., "Jan 15")
- * Older: Full date (e.g., "Jan 15, 2024")
+ * Older: Full date (e.g., "Jan 15, 2025")
  */
 export function formatConversationTime(timestamp: number): string {
   const date = new Date(timestamp * 1000);
@@ -76,14 +76,14 @@ export function formatConversationTime(timestamp: number): string {
     // This year: Show month and day (e.g., "Jan 15")
     return date.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
   } else {
-    // Older: Show full date (e.g., "Jan 15, 2024")
+    // Older: Show full date (e.g., "Jan 15, 2025")
     return date.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
   }
 }
 
 /**
  * Format timestamp as full date and time for tooltips
- * e.g., "Mon, Jan 15, 2024, 2:45 PM"
+ * e.g., "Mon, Jan 15, 2025, 2:45 PM"
  */
 export function formatFullDateTime(timestamp: number): string {
   const date = new Date(timestamp * 1000);

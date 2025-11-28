@@ -11,6 +11,7 @@ import { Snowfall } from '@/components/Snowfall';
 import { ChristmasLights } from '@/components/ChristmasLights';
 import { WinterNightBackground } from '@/components/WinterNightBackground';
 import { ProgressLights } from '@/components/ProgressLights';
+import { ChristmasGiftButton } from '@/components/ChristmasGiftButton';
 
 interface AdventData {
   days: DayContent[];
@@ -25,7 +26,7 @@ const Index = () => {
   const { isDayOpened, markDayAsOpened } = useOpenedDays();
 
   useSeoMeta({
-    title: 'Nostr Advent Calendar 2024',
+    title: 'Nostr Advent Calendar 2025',
     description: 'Discover something new about Nostr every day this December! A 24-day journey through the decentralized social protocol.',
   });
 
@@ -126,10 +127,13 @@ const Index = () => {
                 <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent">
                   Nostr Advent Calendar
                 </h1>
-                <p className="text-sm text-gray-300 dark:text-gray-400">December 2024</p>
+                <p className="text-sm text-gray-300 dark:text-gray-400">December 2025</p>
               </div>
             </div>
-            <LoginArea className="max-w-60" />
+            <div className="flex items-center gap-3">
+              <ChristmasGiftButton />
+              <LoginArea className="max-w-60" />
+            </div>
           </div>
         </div>
       </header>
