@@ -15,6 +15,8 @@ export default defineConfig(() => ({
   ],
   build: {
     outDir: 'docs',
+    // Preserve .nojekyll and other important files
+    emptyOutDir: false,
   },
   test: {
     globals: true,
