@@ -14,9 +14,7 @@ export default defineConfig(() => ({
     react(),
   ],
   build: {
-    outDir: 'docs',
-    // Preserve .nojekyll and other important files
-    emptyOutDir: false,
+    // Build to default 'dist' directory for GitHub Pages Actions
   },
   test: {
     globals: true,
