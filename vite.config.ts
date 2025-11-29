@@ -5,6 +5,7 @@ import { defineConfig } from "vitest/config";
 
 // https://vitejs.dev/config/
 export default defineConfig(() => ({
+  base: '/',
   server: {
     host: "::",
     port: 8080,
@@ -12,6 +13,9 @@ export default defineConfig(() => ({
   plugins: [
     react(),
   ],
+  build: {
+    outDir: 'docs',
+  },
   test: {
     globals: true,
     environment: 'jsdom',

@@ -1,0 +1,25 @@
+{
+  "name": "Christmas Advent Calendar 2025",
+  "short_name": "Christmas Advent",
+  "description": "Discover the history and traditions of Christmas from around the world! A fun 24-day journey for kids leading up to Christmas.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#9333ea",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
+
