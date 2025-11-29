@@ -37,8 +37,8 @@ jobs:
         run: |
           npm ci
           npm run build
-          # build outputs to docs/ — ensure docs/index.html exists
-          cp docs/index.html docs/404.html
+          # build outputs to dist/ — ensure dist/index.html exists
+          cp dist/index.html dist/404.html
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -46,7 +46,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: docs
+          path: dist
 
       - name: Deploy to GitHub Pages
         id: deployment
