@@ -7,8 +7,16 @@ import { useToast } from '@/hooks/useToast';
 import { useOpenedDays } from '@/hooks/useOpenedDays';
 import { useCompletedDays } from '@/hooks/useCompletedDays';
 import { useBadges } from '@/hooks/useBadges';
-import { Calendar, Trophy, User, Award } from 'lucide-react';
+import { Calendar, Trophy, User, Award, Menu } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/components/ui/sheet';
 import { Snowfall } from '@/components/Snowfall';
 import { ChristmasLights } from '@/components/ChristmasLights';
 import { WinterNightBackground } from '@/components/WinterNightBackground';
@@ -28,6 +36,7 @@ const Index = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isBadgesOpen, setIsBadgesOpen] = useState(false);
   const [isAvatarOpen, setIsAvatarOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
   const { toast } = useToast();
   const { avatar } = useAvatar();
@@ -150,23 +159,27 @@ const Index = () => {
       
       {/* Header */}
       <header className="border-b border-indigo-800/30 dark:border-indigo-700/30 bg-slate-900/60 dark:bg-slate-950/60 backdrop-blur-md sticky top-0 z-10">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <Calendar className="w-8 h-8 text-red-400" />
-              <div>
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-red-400 via-green-400 to-blue-400 bg-clip-text text-transparent">
-                  Christmas Advent Calendar
+        <div className="container mx-auto px-3 sm:px-4 py-3 sm:py-4">
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2 min-w-0 flex-1">
+              <Calendar className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 text-red-400 flex-shrink-0" />
+              <div className="min-w-0">
+                <h1 className="text-base sm:text-lg md:text-2xl font-bold bg-gradient-to-r from-red-400 via-green-400 to-blue-400 bg-clip-text text-transparent truncate">
+                  <span className="hidden sm:inline">Christmas Advent Calendar</span>
+                  <span className="sm:hidden">Advent Calendar</span>
                 </h1>
-                <p className="text-sm text-gray-300 dark:text-gray-400">December 2025</p>
+                <p className="text-xs text-gray-300 dark:text-gray-400 hidden sm:block">December 2025</p>
               </div>
             </div>
-            <div className="flex items-center gap-2">
+            
+            {/* Desktop Menu - Only show on large screens (xl and up) */}
+            <div className="hidden xl:flex items-center gap-2">
               <Button
                 onClick={() => setIsAvatarOpen(true)}
                 variant="outline"
                 className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white border-0"
                 title="Choose your avatar"
+                size="sm"
               >
                 <span className="text-xl mr-2">{avatar}</span>
                 <User className="w-4 h-4" />
@@ -175,6 +188,7 @@ const Index = () => {
                 onClick={() => setIsBadgesOpen(true)}
                 variant="outline"
                 className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white border-0"
+                size="sm"
               >
                 <Trophy className="w-4 h-4 mr-2" />
                 My Badges ({totalBadges}/24)
@@ -183,12 +197,79 @@ const Index = () => {
                 <Button
                   variant="outline"
                   className="bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white border-0"
+                  size="sm"
                 >
                   <Award className="w-4 h-4 mr-2" />
                   My Achievements 🏅
                 </Button>
               </Link>
             </div>
+
+            {/* Mobile Menu - Show on all screens below xl (mobile, tablet, small desktop) */}
+            <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+              <SheetTrigger asChild>
+                <Button
+                  variant="outline"
+                  className="xl:hidden bg-slate-800/60 border-slate-700 text-white hover:bg-slate-700/60 flex-shrink-0"
+                  size="icon"
+                >
+                  <Menu className="w-5 h-5" />
+                  <span className="sr-only">Open menu</span>
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="w-[280px] sm:w-[300px] bg-slate-900 border-slate-800">
+                <SheetHeader>
+                  <SheetTitle className="text-white">Menu</SheetTitle>
+                  <SheetDescription className="text-gray-400">
+                    Navigate to different sections
+                  </SheetDescription>
+                </SheetHeader>
+                <div className="mt-6 space-y-3">
+                  <Button
+                    onClick={() => {
+                      setIsAvatarOpen(true);
+                      setIsMobileMenuOpen(false);
+                    }}
+                    variant="outline"
+                    className="w-full justify-start bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white border-0 h-auto py-3"
+                  >
+                    <span className="text-2xl mr-3">{avatar}</span>
+                    <div className="flex flex-col items-start">
+                      <span className="font-semibold">Choose Avatar</span>
+                      <span className="text-xs opacity-80">Pick your holiday helper</span>
+                    </div>
+                  </Button>
+                  
+                  <Button
+                    onClick={() => {
+                      setIsBadgesOpen(true);
+                      setIsMobileMenuOpen(false);
+                    }}
+                    variant="outline"
+                    className="w-full justify-start bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white border-0 h-auto py-3"
+                  >
+                    <Trophy className="w-5 h-5 mr-3" />
+                    <div className="flex flex-col items-start">
+                      <span className="font-semibold">My Badges</span>
+                      <span className="text-xs opacity-80">{totalBadges} of 24 earned</span>
+                    </div>
+                  </Button>
+                  
+                  <Link to="/achievements" onClick={() => setIsMobileMenuOpen(false)} className="block">
+                    <Button
+                      variant="outline"
+                      className="w-full justify-start bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white border-0 h-auto py-3"
+                    >
+                      <Award className="w-5 h-5 mr-3" />
+                      <div className="flex flex-col items-start">
+                        <span className="font-semibold">My Achievements</span>
+                        <span className="text-xs opacity-80">View your progress</span>
+                      </div>
+                    </Button>
+                  </Link>
+                </div>
+              </SheetContent>
+            </Sheet>
           </div>
         </div>
       </header>

@@ -84,20 +84,21 @@ export default function Achievements() {
       {/* Header */}
       <header className="border-b border-indigo-800/30 dark:border-indigo-700/30 bg-slate-900/60 dark:bg-slate-950/60 backdrop-blur-md sticky top-0 z-10">
         <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <Link to="/">
+          <div className="flex items-center justify-between gap-2">
+            <Link to="/" className="flex-shrink-0">
               <Button variant="ghost" className="text-white hover:text-white hover:bg-white/10">
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Back to Calendar
+                <ArrowLeft className="w-4 h-4 md:mr-2" />
+                <span className="hidden md:inline">Back to Calendar</span>
+                <span className="md:hidden">Back</span>
               </Button>
             </Link>
-            <div className="flex items-center gap-3">
-              <Trophy className="w-8 h-8 text-yellow-400" />
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400 bg-clip-text text-transparent">
+            <div className="flex items-center gap-2 md:gap-3 min-w-0 flex-1 justify-center">
+              <Trophy className="w-6 h-6 md:w-8 md:h-8 text-yellow-400 flex-shrink-0" />
+              <h1 className="text-lg md:text-2xl font-bold bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400 bg-clip-text text-transparent truncate">
                 My Achievements
               </h1>
             </div>
-            <div className="w-24" /> {/* Spacer for centering */}
+            <div className="w-16 md:w-24 flex-shrink-0" /> {/* Spacer for centering */}
           </div>
         </div>
       </header>
