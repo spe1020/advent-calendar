@@ -39,9 +39,10 @@ jobs:
 
       - name: Install dependencies and build
         run: |
-          npm install
+          npm ci
           npm run build
-          cp dist/index.html dist/404.html
+          # build outputs to docs/ — ensure docs/index.html exists
+          cp docs/index.html docs/404.html
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -49,7 +50,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: dist
+          path: docs
 
       - name: Deploy to GitHub Pages
         id: deployment
